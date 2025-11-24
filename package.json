@@ -1,0 +1,10 @@
+json
+
+{
+  "name": "daily-nine",
+  "version": "1.0.0",
+  "description": "Daily Nine - Automated article aggregator",
+  "dependencies": {
+    "rss-parser": "^3.13.0"
+  }
+}
