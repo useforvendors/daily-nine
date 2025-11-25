@@ -211,8 +211,12 @@
             grid.innerHTML = '';
 
             if (currentView === 'main') {
-                // Show featured article from each category
-                Object.keys(data).forEach(categoryKey => {
+                // Show featured article from each category in alphabetical order
+                const sortedCategories = Object.keys(data).sort((a, b) => {
+                    return data[a].name.localeCompare(data[b].name);
+                });
+                
+                sortedCategories.forEach(categoryKey => {
                     const category = data[categoryKey];
                     const featuredArticle = category.articles.find(a => a.featured);
                     
