@@ -1,6 +1,6 @@
 [build]
   functions = "netlify/functions"
-  publish = "daily-nine"
+  publish = "."
 
 [[redirects]]
   from = "/api/*"
