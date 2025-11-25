@@ -39,9 +39,10 @@ const FEEDS = {
     'https://www.theverge.com/rss/index.xml',
   ],
   theology: [
-    'https://www.christianitytoday.com/ct/rss/homepage-feed.rss',
-    'https://www.americamagazine.org/rss.xml',
-  ]
+  'https://www.christianitytoday.com/ct.rss',
+  'https://religionnews.com/feed/',
+]
+
 };
 
 const GRADIENTS = {
