@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Nine</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f5f5f5;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+        }
+
+        .header h1 {
+            font-size: 3em;
+            font-weight: 300;
+            letter-spacing: 8px;
+            color: #222;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .header h1:hover {
+            opacity: 0.6;
+        }
+
+        .header p {
+            font-size: 0.9em;
+            color: #666;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .category-title {
+            font-size: 1.2em;
+            color: #01579b;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 10px;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .grid-item {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .grid-item.featured {
+            border: 4px solid rgba(0,0,0,0.3);
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        .grid-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+            color: white;
+            text-align: center;
+            background: rgba(0,0,0,0.15);
+            transition: background 0.3s ease;
+        }
+
+        .grid-item:hover .overlay {
+            background: rgba(0,0,0,0.25);
+        }
+
+        .category {
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            opacity: 1;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .category:hover {
+            opacity: 0.8;
+        }
+
+        .featured-badge {
+            font-size: 0.6em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            opacity: 0.9;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 12px;
+        }
+
+        .title {
+            font-size: 1.2em;
+            line-height: 1.5;
+            font-weight: 400;
+        }
+
+        @media (max-width: 1024px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+                letter-spacing: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 onclick="showMainPage()">DAILY NINE</h1>
+        <p id="subtitle">Nine perspectives, refreshed daily</p>
+        <p id="category-name" class="category-title" style="display: none;"></p>
+    </div>
+
+    <div class="grid-container" id="grid"></div>
+
+    <script>
+        // Data will be loaded from the API
+        let data = null;
+        let loading = true;
+
+        // Show loading state
+        document.getElementById('grid').innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #666; font-size: 1.2em;">Loading articles...</div>';
+
+        // Fetch articles from API
+        fetch('/.netlify/functions/daily-articles')
+            .then(response => response.json())
+            .then(fetchedData => {
+                data = fetchedData;
+                loading = false;
+                showMainPage();
+            })
+            .catch(error => {
+                console.error('Error loading articles:', error);
+                document.getElementById('grid').innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #d32f2f; font-size: 1.2em;">Error loading articles. Please refresh the page.</div>';
+            });
+
+        let currentView = 'main';
+        let currentCategory = null;
+
+        function showMainPage() {
+            currentView = 'main';
+            currentCategory = null;
+            document.getElementById('subtitle').style.display = 'block';
+            document.getElementById('category-name').style.display = 'none';
+            renderGrid();
+        }
+
+        function showCategoryPage(categoryKey) {
+            currentView = 'category';
+            currentCategory = categoryKey;
+            document.getElementById('subtitle').style.display = 'none';
+            const categoryName = document.getElementById('category-name');
+            categoryName.textContent = data[categoryKey].name;
+            categoryName.style.display = 'block';
+            categoryName.style.color = data[categoryKey].gradient.match(/#[0-9a-f]{6}/i)[0];
+            renderGrid();
+        }
+
+        function renderGrid() {
+            if (!data || loading) return;
+            
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+
+            if (currentView === 'main') {
+                // Show featured article from each category
+                Object.keys(data).forEach(categoryKey => {
+                    const category = data[categoryKey];
+                    const featuredArticle = category.articles.find(a => a.featured);
+                    
+                    const item = document.createElement('div');
+                    item.className = 'grid-item';
+                    item.style.background = category.gradient;
+                    
+                    item.innerHTML = `
+                        <div class="overlay">
+                            <div class="category" onclick="event.stopPropagation(); showCategoryPage('${categoryKey}')">${category.name}</div>
+                            <div class="title">${featuredArticle.title}</div>
+                        </div>
+                    `;
+                    
+                    item.onclick = () => window.open(featuredArticle.url, '_blank');
+                    grid.appendChild(item);
+                });
+            } else {
+                // Show all articles in category
+                const category = data[currentCategory];
+                category.articles.forEach(article => {
+                    const item = document.createElement('div');
+                    item.className = 'grid-item';
+                    if (article.featured) item.classList.add('featured');
+                    item.style.background = category.gradient;
+                    
+                    item.innerHTML = `
+                        <div class="overlay">
+                            ${article.featured ? '<div class="featured-badge">Featured on Main</div>' : ''}
+                            <div class="title">${article.title}</div>
+                        </div>
+                    `;
+                    
+                    item.onclick = () => window.open(article.url, '_blank');
+                    grid.appendChild(item);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
