@@ -1,6 +1,5 @@
 // netlify/functions/daily-articles.js
 const Parser = require('rss-parser');
-const { getStore } = require('@netlify/blobs');
 const parser = new Parser();
 
 // Essay-focused RSS feeds for each category
@@ -9,7 +8,7 @@ const FEEDS = {
     'https://www.thisiscolossal.com/feed/',
     'https://hyperallergic.com/feed/',
     'https://www.themarginalian.org/feed/',
-    'https://aeon.co/feed.rss', // Has culture essays
+    'https://aeon.co/feed.rss',
     'https://www.theparisreview.org/blog/feed/',
   ],
   literature: [
@@ -106,6 +105,14 @@ const CATEGORY_KEYWORDS = {
   theology: ['god', 'faith', 'religion', 'theology', 'church', 'spiritual', 'belief', 'christian', 'biblical', 'sacred', 'divine', 'prayer', 'scripture']
 };
 
+// Simple in-memory cache for the current session
+// This won't persist across function invocations, but that's okay - 
+// the key goal is preventing duplicates within the same day/request
+let sessionHistory = {
+  articles: [],
+  lastUpdated: null
+};
+
 // Enhanced scoring function for essays
 function scoreArticle(article, categoryKey) {
   let score = 0;
@@ -113,44 +120,39 @@ function scoreArticle(article, categoryKey) {
   const content = (article.contentSnippet || '').toLowerCase();
   const fullText = title + ' ' + content;
   
-  // 1. Recency score (0-30 points) - less weight than before
+  // 1. Recency score (0-30 points)
   const ageInHours = (Date.now() - article.pubDate.getTime()) / (1000 * 60 * 60);
   if (ageInHours < 24) score += 30;
   else if (ageInHours < 72) score += 25;
-  else if (ageInHours < 168) score += 20; // Within a week
-  else if (ageInHours < 336) score += 15; // Within 2 weeks
-  else if (ageInHours < 720) score += 10; // Within a month
+  else if (ageInHours < 168) score += 20;
+  else if (ageInHours < 336) score += 15;
+  else if (ageInHours < 720) score += 10;
   
-  // 2. Essay indicators (0-40 points) - major factor
+  // 2. Essay indicators (0-40 points)
   const essayWords = ['essay', 'reflection', 'meditation', 'contemplation', 'exploration', 'examination', 'perspective', 'thoughts on', 'thinking about'];
   const essayCount = essayWords.filter(word => fullText.includes(word)).length;
   score += Math.min(essayCount * 10, 25);
   
-  // Long-form indicators
   const longformWords = ['deep dive', 'in-depth', 'long read', 'comprehensive', 'complete guide', 'everything you need', 'understanding'];
   const longformCount = longformWords.filter(phrase => fullText.includes(phrase)).length;
   score += Math.min(longformCount * 8, 15);
   
-  // 3. Category relevance (0-40 points) - crucial for proper categorization
+  // 3. Category relevance (0-40 points)
   const categoryWords = CATEGORY_KEYWORDS[categoryKey];
   const matchCount = categoryWords.filter(word => fullText.includes(word)).length;
   score += Math.min(matchCount * 5, 40);
   
   // 4. Title quality (0-25 points)
-  // Longer, substantive titles (40-150 chars ideal for essays)
   if (article.title.length >= 40 && article.title.length <= 150) score += 10;
   
-  // Avoid clickbait and news-style patterns
   const clickbaitWords = ['shocking', 'unbelievable', 'you won\'t believe', 'this one trick', 'breaking', 'just in', 'developing'];
   const hasClickbait = clickbaitWords.some(word => title.includes(word));
   if (hasClickbait) score -= 25;
   
-  // Prefer analytical/thoughtful language
   const qualityWords = ['how', 'why', 'what if', 'understanding', 'rethinking', 'reimagining', 'reconsidering', 'beyond'];
   const qualityWordCount = qualityWords.filter(word => title.includes(word)).length;
   score += Math.min(qualityWordCount * 5, 10);
   
-  // Colon titles (common in essays: "Main Title: Subtitle")
   if (title.includes(':')) score += 5;
   
   // 5. Depth indicators (0-15 points)
@@ -161,30 +163,7 @@ function scoreArticle(article, categoryKey) {
   return score;
 }
 
-// Get article history from Netlify Blobs
-async function getArticleHistory(store) {
-  try {
-    const history = await store.get('article-history', { type: 'json' });
-    return history || { articles: [] };
-  } catch (error) {
-    console.log('No history found, starting fresh');
-    return { articles: [] };
-  }
-}
-
-// Save article history to Netlify Blobs
-async function saveArticleHistory(store, history) {
-  await store.setJSON('article-history', history);
-}
-
-// Clean old entries (older than 7 days)
-function cleanHistory(history) {
-  const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
-  history.articles = history.articles.filter(item => item.timestamp > sevenDaysAgo);
-  return history;
-}
-
-async function fetchArticlesForCategory(categoryKey, usedUrls, history) {
+async function fetchArticlesForCategory(categoryKey, usedUrls) {
   const feeds = FEEDS[categoryKey];
   const allArticles = [];
 
@@ -204,12 +183,8 @@ async function fetchArticlesForCategory(categoryKey, usedUrls, history) {
     }
   }
 
-  // Filter out recently shown articles (last 7 days)
-  const recentUrls = new Set(history.articles.map(item => item.url));
-  const freshArticles = allArticles.filter(article => !recentUrls.has(article.url));
-
   // Filter out articles already used in other categories today
-  const availableArticles = freshArticles.filter(article => !usedUrls.has(article.url));
+  const availableArticles = allArticles.filter(article => !usedUrls.has(article.url));
 
   // Score all available articles
   const scoredArticles = availableArticles.map(article => ({
@@ -230,7 +205,7 @@ async function fetchArticlesForCategory(categoryKey, usedUrls, history) {
     if (!usedSources.has(article.source) || selectedArticles.length >= 6) {
       selectedArticles.push(article);
       usedSources.add(article.source);
-      usedUrls.add(article.url); // Mark as used for other categories
+      usedUrls.add(article.url);
     }
   }
   
@@ -253,38 +228,18 @@ async function fetchArticlesForCategory(categoryKey, usedUrls, history) {
 
 exports.handler = async function(event, context) {
   try {
-    // Initialize Netlify Blobs store
-    const store = getStore('daily-nine');
-    
-    // Get article history
-    let history = await getArticleHistory(store);
-    history = cleanHistory(history);
-    
     const data = {};
     const usedUrls = new Set(); // Track URLs used across categories today
-    const newArticles = []; // Track articles selected today
 
     // Fetch articles for all categories sequentially to prevent duplicates
     for (const categoryKey of Object.keys(FEEDS)) {
-      const articles = await fetchArticlesForCategory(categoryKey, usedUrls, history);
+      const articles = await fetchArticlesForCategory(categoryKey, usedUrls);
       data[categoryKey] = {
         name: CATEGORY_NAMES[categoryKey],
         gradient: GRADIENTS[categoryKey],
         articles: articles
       };
-      
-      // Add to new articles list
-      articles.forEach(article => {
-        newArticles.push({
-          url: article.url,
-          timestamp: Date.now()
-        });
-      });
     }
-
-    // Update history with newly selected articles
-    history.articles.push(...newArticles);
-    await saveArticleHistory(store, history);
 
     return {
       statusCode: 200,
