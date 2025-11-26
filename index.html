@@ -32,13 +32,7 @@
             letter-spacing: 12px;
             color: #3d3a32;
             margin-bottom: 20px;
-            cursor: pointer;
-            transition: opacity 0.5s ease;
             text-transform: lowercase;
-        }
-
-        .header h1:hover {
-            opacity: 0.5;
         }
 
         .header p {
@@ -47,15 +41,6 @@
             letter-spacing: 3px;
             font-weight: 400;
             line-height: 1.8;
-        }
-
-        .category-title {
-            font-size: 1.15em;
-            color: #3d3a32;
-            letter-spacing: 4px;
-            font-weight: 500;
-            margin-top: 10px;
-            text-transform: lowercase;
         }
 
         .grid-container {
@@ -76,91 +61,9 @@
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid #d4cfc0;
             box-shadow: 0 2px 8px rgba(90, 84, 71, 0.08);
-        }
-
-        /* Category symbols as background watermarks */
-        .grid-item::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0.08;
-            pointer-events: none;
-            font-size: 10em;
-            font-weight: 100;
-            color: #3d3a32;
-        }
-
-        .grid-item[data-category="artsculture"]::before {
-            content: '◯';
-            font-size: 12em;
-        }
-        .grid-item[data-category="literature"]::before {
-            content: '❝';
-            font-size: 15em;
-        }
-        .grid-item[data-category="philosophy"]::before {
-            content: '?';
-            font-size: 16em;
-        }
-        .grid-item[data-category="politics"]::before {
-            content: '⚖';
-            font-size: 10em;
-        }
-        .grid-item[data-category="science"]::before {
-            content: '⚛';
-            font-size: 11em;
-        }
-        .grid-item[data-category="society"]::before {
-            content: '◐';
-            font-size: 13em;
-        }
-        .grid-item[data-category="sports"]::before {
-            content: '⟳';
-            font-size: 12em;
-        }
-        .grid-item[data-category="technology"]::before {
-            content: '◇';
-            font-size: 14em;
-        }
-        .grid-item[data-category="theology"]::before {
-            content: '✦';
-            font-size: 13em;
-        }
-
-        /* Color washes for each category - bolder colors */
-        .grid-item[data-category="artsculture"] {
-            background: linear-gradient(135deg, #f5c0b0 0%, #e8a898 100%);
-        }
-        .grid-item[data-category="literature"] {
-            background: linear-gradient(135deg, #f5d0a0 0%, #e8c080 100%);
-        }
-        .grid-item[data-category="philosophy"] {
-            background: linear-gradient(135deg, #f5e0a0 0%, #e8d080 100%);
-        }
-        .grid-item[data-category="politics"] {
-            background: linear-gradient(135deg, #c0d8a8 0%, #a8c890 100%);
-        }
-        .grid-item[data-category="science"] {
-            background: linear-gradient(135deg, #b0c8d8 0%, #98b8d0 100%);
-        }
-        .grid-item[data-category="society"] {
-            background: linear-gradient(135deg, #c8b0d8 0%, #b898d0 100%);
-        }
-        .grid-item[data-category="sports"] {
-            background: linear-gradient(135deg, #d8b0c0 0%, #d098b0 100%);
-        }
-        .grid-item[data-category="technology"] {
-            background: linear-gradient(135deg, #b0c0c8 0%, #98b0c0 100%);
-        }
-        .grid-item[data-category="theology"] {
-            background: linear-gradient(135deg, #d0b0c8 0%, #c898b8 100%);
-        }
-
-        .grid-item.featured {
-            border: 2px solid #b8ad95;
-            box-shadow: 0 2px 12px rgba(90, 84, 71, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .grid-item:hover {
@@ -170,88 +73,42 @@
             border-color: #a89f88;
         }
 
-        .overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px;
-            color: #3d3a32;
-            text-align: center;
-            background: linear-gradient(135deg, rgba(245, 241, 232, 0.85) 0%, rgba(235, 230, 220, 0.85) 100%);
-            transition: all 0.6s ease;
+        /* Nine different colored boxes - muted by half */
+        .grid-item:nth-child(1) {
+            background: linear-gradient(135deg, #f5ddd8 0%, #f0d4cc 100%);
+        }
+        .grid-item:nth-child(2) {
+            background: linear-gradient(135deg, #f5e5d0 0%, #f0ddc0 100%);
+        }
+        .grid-item:nth-child(3) {
+            background: linear-gradient(135deg, #f5edd0 0%, #f0e5c0 100%);
+        }
+        .grid-item:nth-child(4) {
+            background: linear-gradient(135deg, #ddebd4 0%, #d4e2c8 100%);
+        }
+        .grid-item:nth-child(5) {
+            background: linear-gradient(135deg, #d8e2eb 0%, #ccdce5 100%);
+        }
+        .grid-item:nth-child(6) {
+            background: linear-gradient(135deg, #e2d8eb 0%, #dccce5 100%);
+        }
+        .grid-item:nth-child(7) {
+            background: linear-gradient(135deg, #ebd8dd 0%, #e5ccd8 100%);
+        }
+        .grid-item:nth-child(8) {
+            background: linear-gradient(135deg, #d8dde2 0%, #ccd8dd 100%);
+        }
+        .grid-item:nth-child(9) {
+            background: linear-gradient(135deg, #e5d8e2 0%, #deccdc 100%);
         }
 
-        .grid-item:hover .overlay {
-            background: linear-gradient(135deg, rgba(252, 249, 242, 0.92) 0%, rgba(245, 241, 232, 0.92) 100%);
+        /* Enso circles as SVG backgrounds - each unique */
+        .enso {
+            width: 70%;
+            height: 70%;
+            opacity: 0.15;
+            pointer-events: none;
         }
-
-        .category {
-            font-size: 0.75em;
-            text-transform: lowercase;
-            letter-spacing: 4px;
-            margin-bottom: 20px;
-            opacity: 0.85;
-            font-weight: 500;
-            cursor: pointer;
-            transition: opacity 0.4s ease;
-            color: #3d3a32;
-        }
-
-        .category:hover {
-            opacity: 1;
-        }
-
-        .featured-badge {
-            font-size: 0.55em;
-            text-transform: lowercase;
-            letter-spacing: 3px;
-            margin-bottom: 16px;
-            opacity: 0.5;
-            font-weight: 300;
-            color: #8a8373;
-            border-bottom: 1px solid rgba(122, 115, 99, 0.2);
-            padding-bottom: 8px;
-        }
-
-        .title {
-            font-size: 1.1em;
-            line-height: 1.6;
-            font-weight: 400;
-            color: #3d3a32;
-            transition: color 0.4s ease;
-        }
-
-        .grid-item:hover .title {
-            color: #2a271f;
-        }
-
-        /* Subtle category color accents - natural earth tones */
-        .grid-item[data-category="artsculture"] .category { color: #a86b5a; }
-        .grid-item[data-category="literature"] .category { color: #b88a4d; }
-        .grid-item[data-category="philosophy"] .category { color: #9d9159; }
-        .grid-item[data-category="politics"] .category { color: #6b8a6b; }
-        .grid-item[data-category="science"] .category { color: #5a7a8a; }
-        .grid-item[data-category="society"] .category { color: #8a6b7a; }
-        .grid-item[data-category="sports"] .category { color: #9a6b76; }
-        .grid-item[data-category="technology"] .category { color: #5a6a8a; }
-        .grid-item[data-category="theology"] .category { color: #9a5a76; }
-
-        /* Subtle hover glow with warm tones */
-        .grid-item[data-category="artsculture"]:hover { border-color: #a86b5a; }
-        .grid-item[data-category="literature"]:hover { border-color: #b88a4d; }
-        .grid-item[data-category="philosophy"]:hover { border-color: #9d9159; }
-        .grid-item[data-category="politics"]:hover { border-color: #6b8a6b; }
-        .grid-item[data-category="science"]:hover { border-color: #5a7a8a; }
-        .grid-item[data-category="society"]:hover { border-color: #8a6b7a; }
-        .grid-item[data-category="sports"]:hover { border-color: #9a6b76; }
-        .grid-item[data-category="technology"]:hover { border-color: #5a6a8a; }
-        .grid-item[data-category="theology"]:hover { border-color: #9a5a76; }
 
         @media (max-width: 1024px) {
             .grid-container {
@@ -262,8 +119,6 @@
         @media (max-width: 640px) {
             .grid-container {
                 grid-template-columns: 1fr;
-                gap: 1px;
-                padding: 1px;
             }
             
             .header h1 {
@@ -274,18 +129,10 @@
             .header {
                 margin-bottom: 50px;
             }
-
-            .overlay {
-                padding: 30px;
-            }
-
-            .title {
-                font-size: 1em;
-            }
         }
 
-        /* Loading state */
         .loading {
+            grid-column: 1/-1;
             text-align: center;
             padding: 100px 20px;
             color: #8a8373;
@@ -295,6 +142,7 @@
         }
 
         .error {
+            grid-column: 1/-1;
             text-align: center;
             padding: 100px 20px;
             color: #a86b5a;
@@ -306,117 +154,67 @@
 </head>
 <body>
     <div class="header">
-        <h1 onclick="showMainPage()">daily nine</h1>
-        <p id="subtitle">nine perspectives<br>refreshed daily</p>
-        <p id="category-name" class="category-title" style="display: none;"></p>
+        <h1>daily nine</h1>
+        <p>nine essays<br>refreshed daily</p>
     </div>
 
-    <div class="grid-container" id="grid"></div>
+    <div class="grid-container" id="grid">
+        <div class="loading">loading essays...</div>
+    </div>
 
     <script>
-        let data = null;
-        let loading = true;
+        // Nine unique enso circles as SVG paths
+        const ensoCircles = [
+            // Enso 1 - Nearly complete, gap at top
+            `<svg class="enso" viewBox="0 0 200 200"><path d="M 100 20 A 80 80 0 1 1 95 20" stroke="#3d3a32" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+            
+            // Enso 2 - Gap at bottom right
+            `<svg class="enso" viewBox="0 0 200 200"><path d="M 100 20 A 80 80 0 1 1 140 160" stroke="#3d3a32" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+            
+            // Enso 3 - Thick, gap at left
+            `<svg class="enso" viewBox="0 0 200 200"><path d="M 30 100 A 70 70 0 1 1 35 100" stroke="#3d3a32" stroke-width="4" fill="none" stroke-linecap="round"/></svg>`,
+            
+            // Enso 4 - Thin, gap at right
+            `<svg class="enso" viewBox="0 0 200 200"><path d="M 100 30 A 70 70 0 1 1 100 25" stroke="#3d3a32" stroke-width="2" fill="none" stroke-linecap="round"/></svg>`,
+            
+            // Enso 5 - Imperfect circle, gap at top right
+            `<svg class="enso" viewBox="0 0 200 200"><path d="M 100 25 A 75 75 0 0 1 165 95 A 78 78 0 0 1 100 175 A 73 73 0 0 1 35 100 A 76 76 0 0 1 120 28" stroke="#3d3a32" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+            
+            // Enso 6 - Gap at bottom
+            `<svg class="enso" viewBox="0 0 200 200"><path d="M 40 100 A 75 75 0 1 1 160 100" stroke="#3d3a32" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+            
+            // Enso 7 - Subtle gap at left bottom
+            `<svg class="enso" viewBox="0 0 200 200"><path d="M 100 25 A 75 75 0 1 1 50 140" stroke="#3d3a32" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+            
+            // Enso 8 - Wide gap at top
+            `<svg class="enso" viewBox="0 0 200 200"><path d="M 130 35 A 75 75 0 1 1 70 35" stroke="#3d3a32" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`,
+            
+            // Enso 9 - Nearly perfect, tiny gap at bottom right
+            `<svg class="enso" viewBox="0 0 200 200"><path d="M 100 25 A 75 75 0 1 1 148 148" stroke="#3d3a32" stroke-width="3" fill="none" stroke-linecap="round"/></svg>`
+        ];
 
-        document.getElementById('grid').innerHTML = '<div class="loading">loading essays...</div>';
-
-        // Fetch articles from your Netlify function
         fetch('/.netlify/functions/daily-articles')
             .then(response => response.json())
-            .then(fetchedData => {
-                data = fetchedData;
-                loading = false;
-                showMainPage();
+            .then(articles => {
+                renderGrid(articles);
             })
             .catch(error => {
                 console.error('Error loading articles:', error);
                 document.getElementById('grid').innerHTML = '<div class="error">unable to load essays<br>please refresh</div>';
             });
 
-        let currentView = 'main';
-        let currentCategory = null;
-
-        function showMainPage() {
-            currentView = 'main';
-            currentCategory = null;
-            document.getElementById('subtitle').style.display = 'block';
-            document.getElementById('category-name').style.display = 'none';
-            renderGrid();
-        }
-
-        function showCategoryPage(categoryKey) {
-            currentView = 'category';
-            currentCategory = categoryKey;
-            document.getElementById('subtitle').style.display = 'none';
-            const categoryName = document.getElementById('category-name');
-            categoryName.textContent = data[categoryKey].name.toLowerCase();
-            categoryName.style.display = 'block';
-            categoryName.style.color = getCategoryColor(categoryKey);
-            renderGrid();
-        }
-
-        function getCategoryColor(categoryKey) {
-            const colors = {
-                artsculture: '#a86b5a',
-                literature: '#b88a4d',
-                philosophy: '#9d9159',
-                politics: '#6b8a6b',
-                science: '#5a7a8a',
-                society: '#8a6b7a',
-                sports: '#9a6b76',
-                technology: '#5a6a8a',
-                theology: '#9a5a76'
-            };
-            return colors[categoryKey] || '#666';
-        }
-
-        function renderGrid() {
-            if (!data || loading) return;
-            
+        function renderGrid(articles) {
             const grid = document.getElementById('grid');
             grid.innerHTML = '';
 
-            if (currentView === 'main') {
-                const sortedCategories = Object.keys(data).sort((a, b) => {
-                    return data[a].name.localeCompare(data[b].name);
-                });
-                
-                sortedCategories.forEach(categoryKey => {
-                    const category = data[categoryKey];
-                    const featuredArticle = category.articles.find(a => a.featured);
-                    
-                    const item = document.createElement('div');
-                    item.className = 'grid-item';
-                    item.setAttribute('data-category', categoryKey);
-                    
-                    item.innerHTML = `
-                        <div class="overlay">
-                            <div class="category" onclick="event.stopPropagation(); showCategoryPage('${categoryKey}')">${category.name.toLowerCase()}</div>
-                            <div class="title">${featuredArticle.title}</div>
-                        </div>
-                    `;
-                    
-                    item.onclick = () => window.open(featuredArticle.url, '_blank');
-                    grid.appendChild(item);
-                });
-            } else {
-                const category = data[currentCategory];
-                category.articles.forEach(article => {
-                    const item = document.createElement('div');
-                    item.className = 'grid-item';
-                    if (article.featured) item.classList.add('featured');
-                    item.setAttribute('data-category', currentCategory);
-                    
-                    item.innerHTML = `
-                        <div class="overlay">
-                            ${article.featured ? '<div class="featured-badge">featured</div>' : ''}
-                            <div class="title">${article.title}</div>
-                        </div>
-                    `;
-                    
-                    item.onclick = () => window.open(article.url, '_blank');
-                    grid.appendChild(item);
-                });
-            }
+            articles.forEach((article, index) => {
+                const item = document.createElement('div');
+                item.className = 'grid-item';
+                item.innerHTML = ensoCircles[index];
+                item.onclick = () => window.open(article.url, '_blank');
+                item.title = article.title; // Show title on hover
+                grid.appendChild(item);
+            });
         }
     </script>
 </body>
