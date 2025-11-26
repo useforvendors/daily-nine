@@ -12,54 +12,60 @@
         }
 
         body {
-            font-family: 'Georgia', serif;
-            background-color: #f5f5f5;
-            padding: 20px;
+            font-family: 'Palatino', 'Palatino Linotype', 'Book Antiqua', serif;
+            background: linear-gradient(to bottom, #e8e4d9 0%, #d9d4c9 100%);
+            color: #3d3a32;
+            padding: 40px 20px;
             min-height: 100vh;
+            line-height: 1.6;
         }
 
         .header {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 20px 0;
+            margin-bottom: 80px;
+            padding: 40px 0;
         }
 
         .header h1 {
-            font-size: 3em;
+            font-size: 2em;
             font-weight: 300;
-            letter-spacing: 8px;
-            color: #222;
-            margin-bottom: 10px;
+            letter-spacing: 12px;
+            color: #5a5447;
+            margin-bottom: 20px;
             cursor: pointer;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.5s ease;
+            text-transform: lowercase;
         }
 
         .header h1:hover {
-            opacity: 0.6;
+            opacity: 0.5;
         }
 
         .header p {
-            font-size: 0.9em;
-            color: #666;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+            font-size: 0.85em;
+            color: #8a8373;
+            letter-spacing: 3px;
+            font-weight: 300;
+            line-height: 1.8;
         }
 
         .category-title {
-            font-size: 1.2em;
-            color: #01579b;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            font-weight: 600;
+            font-size: 1em;
+            color: #6d6656;
+            letter-spacing: 4px;
+            font-weight: 400;
             margin-top: 10px;
+            text-transform: lowercase;
         }
 
         .grid-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
+            gap: 8px;
             max-width: 1400px;
             margin: 0 auto;
+            background: transparent;
+            padding: 0;
         }
 
         .grid-item {
@@ -67,17 +73,51 @@
             aspect-ratio: 1;
             overflow: hidden;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #f5f1e8;
+            border: 1px solid #d4cfc0;
+            box-shadow: 0 2px 8px rgba(90, 84, 71, 0.08);
+        }
+
+        /* Color washes for each category - now more visible */
+        .grid-item[data-category="artsculture"] {
+            background: linear-gradient(135deg, #f5d5c8 0%, #f0c0b0 100%);
+        }
+        .grid-item[data-category="literature"] {
+            background: linear-gradient(135deg, #f5e0c0 0%, #f0d0a0 100%);
+        }
+        .grid-item[data-category="philosophy"] {
+            background: linear-gradient(135deg, #f5ecc0 0%, #f0e0a0 100%);
+        }
+        .grid-item[data-category="politics"] {
+            background: linear-gradient(135deg, #d0e8c8 0%, #c0e0b0 100%);
+        }
+        .grid-item[data-category="science"] {
+            background: linear-gradient(135deg, #c8d8e8 0%, #b0c8e0 100%);
+        }
+        .grid-item[data-category="society"] {
+            background: linear-gradient(135deg, #d8c8e8 0%, #c8b0e0 100%);
+        }
+        .grid-item[data-category="sports"] {
+            background: linear-gradient(135deg, #e8c8d0 0%, #e0b0c0 100%);
+        }
+        .grid-item[data-category="technology"] {
+            background: linear-gradient(135deg, #c8d0d8 0%, #b0c0d0 100%);
+        }
+        .grid-item[data-category="theology"] {
+            background: linear-gradient(135deg, #e0c8d8 0%, #d8b0c8 100%);
         }
 
         .grid-item.featured {
-            border: 4px solid rgba(0,0,0,0.3);
-            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+            border: 2px solid #b8ad95;
+            box-shadow: 0 2px 12px rgba(90, 84, 71, 0.12);
         }
 
         .grid-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(90, 84, 71, 0.15);
+            z-index: 10;
+            border-color: #a89f88;
         }
 
         .overlay {
@@ -90,49 +130,78 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 30px;
-            color: white;
+            padding: 40px;
+            color: #3d3a32;
             text-align: center;
-            background: rgba(0,0,0,0.15);
-            transition: background 0.3s ease;
+            background: linear-gradient(135deg, rgba(245, 241, 232, 0.92) 0%, rgba(235, 230, 220, 0.92) 100%);
+            transition: all 0.6s ease;
         }
 
         .grid-item:hover .overlay {
-            background: rgba(0,0,0,0.25);
+            background: linear-gradient(135deg, rgba(252, 249, 242, 0.96) 0%, rgba(245, 241, 232, 0.96) 100%);
         }
 
         .category {
-            font-size: 0.75em;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 12px;
-            opacity: 1;
-            font-weight: 700;
+            font-size: 0.65em;
+            text-transform: lowercase;
+            letter-spacing: 4px;
+            margin-bottom: 20px;
+            opacity: 0.6;
+            font-weight: 400;
             cursor: pointer;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
+            color: #7a7363;
         }
 
         .category:hover {
-            opacity: 0.8;
+            opacity: 1;
         }
 
         .featured-badge {
-            font-size: 0.6em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-            opacity: 0.9;
-            font-weight: 700;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 4px 12px;
-            border-radius: 12px;
+            font-size: 0.55em;
+            text-transform: lowercase;
+            letter-spacing: 3px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+            font-weight: 300;
+            color: #8a8373;
+            border-bottom: 1px solid rgba(122, 115, 99, 0.2);
+            padding-bottom: 8px;
         }
 
         .title {
-            font-size: 1.2em;
-            line-height: 1.5;
+            font-size: 1.1em;
+            line-height: 1.6;
             font-weight: 400;
+            color: #3d3a32;
+            transition: color 0.4s ease;
         }
+
+        .grid-item:hover .title {
+            color: #2a271f;
+        }
+
+        /* Subtle category color accents - natural earth tones */
+        .grid-item[data-category="artsculture"] .category { color: #a86b5a; }
+        .grid-item[data-category="literature"] .category { color: #b88a4d; }
+        .grid-item[data-category="philosophy"] .category { color: #9d9159; }
+        .grid-item[data-category="politics"] .category { color: #6b8a6b; }
+        .grid-item[data-category="science"] .category { color: #5a7a8a; }
+        .grid-item[data-category="society"] .category { color: #8a6b7a; }
+        .grid-item[data-category="sports"] .category { color: #9a6b76; }
+        .grid-item[data-category="technology"] .category { color: #5a6a8a; }
+        .grid-item[data-category="theology"] .category { color: #9a5a76; }
+
+        /* Subtle hover glow with warm tones */
+        .grid-item[data-category="artsculture"]:hover { border-color: #a86b5a; }
+        .grid-item[data-category="literature"]:hover { border-color: #b88a4d; }
+        .grid-item[data-category="philosophy"]:hover { border-color: #9d9159; }
+        .grid-item[data-category="politics"]:hover { border-color: #6b8a6b; }
+        .grid-item[data-category="science"]:hover { border-color: #5a7a8a; }
+        .grid-item[data-category="society"]:hover { border-color: #8a6b7a; }
+        .grid-item[data-category="sports"]:hover { border-color: #9a6b76; }
+        .grid-item[data-category="technology"]:hover { border-color: #5a6a8a; }
+        .grid-item[data-category="theology"]:hover { border-color: #9a5a76; }
 
         @media (max-width: 1024px) {
             .grid-container {
@@ -143,33 +212,64 @@
         @media (max-width: 640px) {
             .grid-container {
                 grid-template-columns: 1fr;
+                gap: 1px;
+                padding: 1px;
             }
             
             .header h1 {
-                font-size: 2em;
-                letter-spacing: 4px;
+                font-size: 1.5em;
+                letter-spacing: 8px;
             }
+
+            .header {
+                margin-bottom: 50px;
+            }
+
+            .overlay {
+                padding: 30px;
+            }
+
+            .title {
+                font-size: 1em;
+            }
+        }
+
+        /* Loading state */
+        .loading {
+            text-align: center;
+            padding: 100px 20px;
+            color: #8a8373;
+            font-size: 0.9em;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        .error {
+            text-align: center;
+            padding: 100px 20px;
+            color: #a86b5a;
+            font-size: 0.9em;
+            letter-spacing: 2px;
+            font-weight: 300;
         }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1 onclick="showMainPage()">DAILY NINE</h1>
-        <p id="subtitle">Nine perspectives, refreshed daily</p>
+        <h1 onclick="showMainPage()">daily nine</h1>
+        <p id="subtitle">nine perspectives<br>refreshed daily</p>
         <p id="category-name" class="category-title" style="display: none;"></p>
     </div>
 
     <div class="grid-container" id="grid"></div>
 
     <script>
-        // Data will be loaded from the API
         let data = null;
         let loading = true;
 
-        // Show loading state
-        document.getElementById('grid').innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #666; font-size: 1.2em;">Loading articles...</div>';
+        document.getElementById('grid').innerHTML = '<div class="loading">loading essays...</div>';
 
-        // Fetch articles from API
+        // Try to fetch from API, fall back to sample data for preview
         fetch('/.netlify/functions/daily-articles')
             .then(response => response.json())
             .then(fetchedData => {
@@ -178,8 +278,138 @@
                 showMainPage();
             })
             .catch(error => {
-                console.error('Error loading articles:', error);
-                document.getElementById('grid').innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 60px; color: #d32f2f; font-size: 1.2em;">Error loading articles. Please refresh the page.</div>';
+                console.log('Using sample data for preview');
+                // Sample data for preview
+                data = {
+                    artsculture: {
+                        name: "Arts & Culture",
+                        articles: [
+                            { title: "The Quiet Revolution in Contemporary Ceramics", url: "#", featured: true },
+                            { title: "On the Nature of Beauty in Japanese Garden Design", url: "#", featured: false },
+                            { title: "Minimalism and the Search for Essential Form", url: "#", featured: false },
+                            { title: "The Architecture of Silence", url: "#", featured: false },
+                            { title: "Rediscovering the Ancient Art of Calligraphy", url: "#", featured: false },
+                            { title: "How Light Shapes Sacred Spaces", url: "#", featured: false },
+                            { title: "The Philosophy of Wabi-Sabi in Modern Design", url: "#", featured: false },
+                            { title: "Contemplative Photography and the Present Moment", url: "#", featured: false },
+                            { title: "The Lost Art of Handmade Paper", url: "#", featured: false }
+                        ]
+                    },
+                    literature: {
+                        name: "Literature",
+                        articles: [
+                            { title: "Poetry as a Path to Understanding", url: "#", featured: true },
+                            { title: "The Enduring Wisdom of Ursula K. Le Guin", url: "#", featured: false },
+                            { title: "On Rereading: Why We Return to Beloved Books", url: "#", featured: false },
+                            { title: "The Essay as a Form of Meditation", url: "#", featured: false },
+                            { title: "Translation and the Limits of Language", url: "#", featured: false },
+                            { title: "What We Talk About When We Talk About Stories", url: "#", featured: false },
+                            { title: "The Power of Slow Reading in a Fast World", url: "#", featured: false },
+                            { title: "Literary Silence: What Writers Leave Unsaid", url: "#", featured: false },
+                            { title: "The Art of the Opening Sentence", url: "#", featured: false }
+                        ]
+                    },
+                    philosophy: {
+                        name: "Philosophy",
+                        articles: [
+                            { title: "The Paradox of Trying Not to Try", url: "#", featured: true },
+                            { title: "On Being Nobody: The Freedom of Anonymity", url: "#", featured: false },
+                            { title: "Time, Memory, and the Self", url: "#", featured: false },
+                            { title: "What We Owe to Each Other: Rethinking Ethics", url: "#", featured: false },
+                            { title: "The Philosophy of Enough", url: "#", featured: false },
+                            { title: "Attention as a Moral Act", url: "#", featured: false },
+                            { title: "On the Value of Uncertainty", url: "#", featured: false },
+                            { title: "Solitude and the Examined Life", url: "#", featured: false },
+                            { title: "The Ethics of Care in a Technological Age", url: "#", featured: false }
+                        ]
+                    },
+                    politics: {
+                        name: "Politics",
+                        articles: [
+                            { title: "Democracy in the Age of Distraction", url: "#", featured: true },
+                            { title: "What Does It Mean to Be a Citizen?", url: "#", featured: false },
+                            { title: "The Politics of Listening", url: "#", featured: false },
+                            { title: "On Civil Disagreement and Public Discourse", url: "#", featured: false },
+                            { title: "Power, Justice, and the Common Good", url: "#", featured: false },
+                            { title: "Reimagining Political Community", url: "#", featured: false },
+                            { title: "The Lost Art of Political Compromise", url: "#", featured: false },
+                            { title: "Democracy's Quiet Crisis", url: "#", featured: false },
+                            { title: "What Would a Politics of Care Look Like?", url: "#", featured: false }
+                        ]
+                    },
+                    science: {
+                        name: "Science",
+                        articles: [
+                            { title: "The Mystery of Consciousness Remains", url: "#", featured: true },
+                            { title: "What Trees Know That We Don't", url: "#", featured: false },
+                            { title: "Time in the Quantum World", url: "#", featured: false },
+                            { title: "The Limits of Scientific Knowledge", url: "#", featured: false },
+                            { title: "Understanding the Universe Through Mathematics", url: "#", featured: false },
+                            { title: "The Beauty of Fundamental Physics", url: "#", featured: false },
+                            { title: "How Life Began: New Theories", url: "#", featured: false },
+                            { title: "The Science of Mindfulness", url: "#", featured: false },
+                            { title: "What Astronomy Teaches Us About Humility", url: "#", featured: false }
+                        ]
+                    },
+                    society: {
+                        name: "Society",
+                        articles: [
+                            { title: "The Art of Gathering in a Fragmented World", url: "#", featured: true },
+                            { title: "What We've Lost in the Pursuit of Efficiency", url: "#", featured: false },
+                            { title: "Community in the Digital Age", url: "#", featured: false },
+                            { title: "The Value of Public Spaces", url: "#", featured: false },
+                            { title: "On Leisure and the Good Life", url: "#", featured: false },
+                            { title: "What Makes a Place Feel Like Home?", url: "#", featured: false },
+                            { title: "The Social Life of Small Talk", url: "#", featured: false },
+                            { title: "Rituals and Their Meaning in Modern Life", url: "#", featured: false },
+                            { title: "The Dignity of Work Reconsidered", url: "#", featured: false }
+                        ]
+                    },
+                    sports: {
+                        name: "Sports",
+                        articles: [
+                            { title: "The Philosophy of Play", url: "#", featured: true },
+                            { title: "What Sport Teaches About Character", url: "#", featured: false },
+                            { title: "The Beauty of Basketball: An Essay", url: "#", featured: false },
+                            { title: "On Being a Fan in the Modern Age", url: "#", featured: false },
+                            { title: "Sport as Metaphor for Life", url: "#", featured: false },
+                            { title: "The Ethics of Competition", url: "#", featured: false },
+                            { title: "What We Talk About When We Talk About Winning", url: "#", featured: false },
+                            { title: "The Lost Art of Sportsmanship", url: "#", featured: false },
+                            { title: "Movement, Mind, and Mastery", url: "#", featured: false }
+                        ]
+                    },
+                    technology: {
+                        name: "Technology",
+                        articles: [
+                            { title: "The Future of Human Attention", url: "#", featured: true },
+                            { title: "What Algorithms Can't Understand", url: "#", featured: false },
+                            { title: "Technology and the Meaning of Work", url: "#", featured: false },
+                            { title: "The Ethics of Artificial Intelligence", url: "#", featured: false },
+                            { title: "Digital Minimalism and the Good Life", url: "#", featured: false },
+                            { title: "What We Lose in the Age of Convenience", url: "#", featured: false },
+                            { title: "The Internet and the Death of Boredom", url: "#", featured: false },
+                            { title: "Can Technology Save Us From Technology?", url: "#", featured: false },
+                            { title: "The Human in the Machine", url: "#", featured: false }
+                        ]
+                    },
+                    theology: {
+                        name: "Theology",
+                        articles: [
+                            { title: "On Prayer and Presence", url: "#", featured: true },
+                            { title: "The Mystery of Faith in a Secular Age", url: "#", featured: false },
+                            { title: "What Does It Mean to Be Human?", url: "#", featured: false },
+                            { title: "Contemplation and the Life of the Spirit", url: "#", featured: false },
+                            { title: "Grace, Doubt, and the Journey Inward", url: "#", featured: false },
+                            { title: "The Silence of God", url: "#", featured: false },
+                            { title: "On Suffering and Redemption", url: "#", featured: false },
+                            { title: "Sacred Time in a Secular World", url: "#", featured: false },
+                            { title: "The Practice of Sabbath Rest", url: "#", featured: false }
+                        ]
+                    }
+                };
+                loading = false;
+                showMainPage();
             });
 
         let currentView = 'main';
@@ -198,10 +428,25 @@
             currentCategory = categoryKey;
             document.getElementById('subtitle').style.display = 'none';
             const categoryName = document.getElementById('category-name');
-            categoryName.textContent = data[categoryKey].name;
+            categoryName.textContent = data[categoryKey].name.toLowerCase();
             categoryName.style.display = 'block';
-            categoryName.style.color = data[categoryKey].gradient.match(/#[0-9a-f]{6}/i)[0];
+            categoryName.style.color = getCategoryColor(categoryKey);
             renderGrid();
+        }
+
+        function getCategoryColor(categoryKey) {
+            const colors = {
+                artsculture: '#a85757',
+                literature: '#b8823d',
+                philosophy: '#9d8e4d',
+                politics: '#5a7a5a',
+                science: '#4d6b8a',
+                society: '#7a5a7a',
+                sports: '#8a5a6b',
+                technology: '#4d5a7a',
+                theology: '#8a4d6b'
+            };
+            return colors[categoryKey] || '#666';
         }
 
         function renderGrid() {
@@ -211,7 +456,6 @@
             grid.innerHTML = '';
 
             if (currentView === 'main') {
-                // Show featured article from each category in alphabetical order
                 const sortedCategories = Object.keys(data).sort((a, b) => {
                     return data[a].name.localeCompare(data[b].name);
                 });
@@ -222,11 +466,11 @@
                     
                     const item = document.createElement('div');
                     item.className = 'grid-item';
-                    item.style.background = category.gradient;
+                    item.setAttribute('data-category', categoryKey);
                     
                     item.innerHTML = `
                         <div class="overlay">
-                            <div class="category" onclick="event.stopPropagation(); showCategoryPage('${categoryKey}')">${category.name}</div>
+                            <div class="category" onclick="event.stopPropagation(); showCategoryPage('${categoryKey}')">${category.name.toLowerCase()}</div>
                             <div class="title">${featuredArticle.title}</div>
                         </div>
                     `;
@@ -235,17 +479,16 @@
                     grid.appendChild(item);
                 });
             } else {
-                // Show all articles in category
                 const category = data[currentCategory];
                 category.articles.forEach(article => {
                     const item = document.createElement('div');
                     item.className = 'grid-item';
                     if (article.featured) item.classList.add('featured');
-                    item.style.background = category.gradient;
+                    item.setAttribute('data-category', currentCategory);
                     
                     item.innerHTML = `
                         <div class="overlay">
-                            ${article.featured ? '<div class="featured-badge">Featured on Main</div>' : ''}
+                            ${article.featured ? '<div class="featured-badge">featured</div>' : ''}
                             <div class="title">${article.title}</div>
                         </div>
                     `;
