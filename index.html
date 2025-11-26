@@ -73,34 +73,35 @@
             border-color: #a89f88;
         }
 
-        /* Nine different colored boxes - muted by half */
-        .grid-item:nth-child(1) {
-            background: linear-gradient(135deg, #f5ddd8 0%, #f0d4cc 100%);
+        /* Lavender gradient: darkest to lightest in clockwise order */
+        .grid-item:nth-child(1) { /* Top-left - darkest (#1) */
+            background: linear-gradient(135deg, #d5d1db 0%, #cdc9d5 100%);
         }
-        .grid-item:nth-child(2) {
-            background: linear-gradient(135deg, #f5e5d0 0%, #f0ddc0 100%);
+        .grid-item:nth-child(2) { /* Top-center (#2) */
+            background: linear-gradient(135deg, #d9d5de 0%, #d1cdd8 100%);
         }
-        .grid-item:nth-child(3) {
-            background: linear-gradient(135deg, #f5edd0 0%, #f0e5c0 100%);
+        .grid-item:nth-child(3) { /* Top-right (#3) */
+            background: linear-gradient(135deg, #ddd9e2 0%, #d5d1db 100%);
         }
-        .grid-item:nth-child(4) {
-            background: linear-gradient(135deg, #ddebd4 0%, #d4e2c8 100%);
+        .grid-item:nth-child(6) { /* Right-middle (#4) */
+            background: linear-gradient(135deg, #e1dde5 0%, #d9d5de 100%);
         }
-        .grid-item:nth-child(5) {
-            background: linear-gradient(135deg, #d8e2eb 0%, #ccdce5 100%);
+        .grid-item:nth-child(9) { /* Bottom-right (#5) */
+            background: linear-gradient(135deg, #e5e1e9 0%, #ddd9e2 100%);
         }
-        .grid-item:nth-child(6) {
-            background: linear-gradient(135deg, #e2d8eb 0%, #dccce5 100%);
+        .grid-item:nth-child(8) { /* Bottom-center (#6) */
+            background: linear-gradient(135deg, #e9e5ec 0%, #e1dde5 100%);
         }
-        .grid-item:nth-child(7) {
-            background: linear-gradient(135deg, #ebd8dd 0%, #e5ccd8 100%);
+        .grid-item:nth-child(7) { /* Bottom-left (#7) */
+            background: linear-gradient(135deg, #ede9ef 0%, #e5e1e9 100%);
         }
-        .grid-item:nth-child(8) {
-            background: linear-gradient(135deg, #d8dde2 0%, #ccd8dd 100%);
+        .grid-item:nth-child(4) { /* Left-middle (#8) */
+            background: linear-gradient(135deg, #f1edf3 0%, #e9e5ec 100%);
         }
-        .grid-item:nth-child(9) {
-            background: linear-gradient(135deg, #e5d8e2 0%, #deccdc 100%);
+        .grid-item:nth-child(5) { /* Center - lightest (#9) */
+            background: linear-gradient(135deg, #f5f1f6 0%, #edeaf0 100%);
         }
+
 
         /* Enso circles as SVG backgrounds - each unique */
         .enso {
