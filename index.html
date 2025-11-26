@@ -28,9 +28,9 @@
 
         .header h1 {
             font-size: 2em;
-            font-weight: 300;
+            font-weight: 400;
             letter-spacing: 12px;
-            color: #5a5447;
+            color: #3d3a32;
             margin-bottom: 20px;
             cursor: pointer;
             transition: opacity 0.5s ease;
@@ -43,7 +43,7 @@
 
         .header p {
             font-size: 0.95em;
-            color: #6d6656;
+            color: #4a4740;
             letter-spacing: 3px;
             font-weight: 400;
             line-height: 1.8;
@@ -51,7 +51,7 @@
 
         .category-title {
             font-size: 1.15em;
-            color: #5a5447;
+            color: #3d3a32;
             letter-spacing: 4px;
             font-weight: 500;
             margin-top: 10px;
@@ -78,33 +78,84 @@
             box-shadow: 0 2px 8px rgba(90, 84, 71, 0.08);
         }
 
-        /* Color washes for each category - more visible */
+        /* Category symbols as background watermarks */
+        .grid-item::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.08;
+            pointer-events: none;
+            font-size: 10em;
+            font-weight: 100;
+            color: #3d3a32;
+        }
+
+        .grid-item[data-category="artsculture"]::before {
+            content: '◯';
+            font-size: 12em;
+        }
+        .grid-item[data-category="literature"]::before {
+            content: '❝';
+            font-size: 15em;
+        }
+        .grid-item[data-category="philosophy"]::before {
+            content: '?';
+            font-size: 16em;
+        }
+        .grid-item[data-category="politics"]::before {
+            content: '⚖';
+            font-size: 10em;
+        }
+        .grid-item[data-category="science"]::before {
+            content: '⚛';
+            font-size: 11em;
+        }
+        .grid-item[data-category="society"]::before {
+            content: '◐';
+            font-size: 13em;
+        }
+        .grid-item[data-category="sports"]::before {
+            content: '⟳';
+            font-size: 12em;
+        }
+        .grid-item[data-category="technology"]::before {
+            content: '◇';
+            font-size: 14em;
+        }
+        .grid-item[data-category="theology"]::before {
+            content: '✦';
+            font-size: 13em;
+        }
+
+        /* Color washes for each category - bolder colors */
         .grid-item[data-category="artsculture"] {
-            background: linear-gradient(135deg, #f5cdc0 0%, #edb8a8 100%);
+            background: linear-gradient(135deg, #f5c0b0 0%, #e8a898 100%);
         }
         .grid-item[data-category="literature"] {
-            background: linear-gradient(135deg, #f5d8b0 0%, #edc890 100%);
+            background: linear-gradient(135deg, #f5d0a0 0%, #e8c080 100%);
         }
         .grid-item[data-category="philosophy"] {
-            background: linear-gradient(135deg, #f5e8b0 0%, #edd890 100%);
+            background: linear-gradient(135deg, #f5e0a0 0%, #e8d080 100%);
         }
         .grid-item[data-category="politics"] {
-            background: linear-gradient(135deg, #c8e0b8 0%, #b0d8a0 100%);
+            background: linear-gradient(135deg, #c0d8a8 0%, #a8c890 100%);
         }
         .grid-item[data-category="science"] {
-            background: linear-gradient(135deg, #c0d0e0 0%, #a8c0d8 100%);
+            background: linear-gradient(135deg, #b0c8d8 0%, #98b8d0 100%);
         }
         .grid-item[data-category="society"] {
-            background: linear-gradient(135deg, #d0c0e0 0%, #c0a8d8 100%);
+            background: linear-gradient(135deg, #c8b0d8 0%, #b898d0 100%);
         }
         .grid-item[data-category="sports"] {
-            background: linear-gradient(135deg, #e0c0c8 0%, #d8a8b8 100%);
+            background: linear-gradient(135deg, #d8b0c0 0%, #d098b0 100%);
         }
         .grid-item[data-category="technology"] {
-            background: linear-gradient(135deg, #c0c8d0 0%, #a8b8c8 100%);
+            background: linear-gradient(135deg, #b0c0c8 0%, #98b0c0 100%);
         }
         .grid-item[data-category="theology"] {
-            background: linear-gradient(135deg, #d8c0d0 0%, #d0a8c0 100%);
+            background: linear-gradient(135deg, #d0b0c8 0%, #c898b8 100%);
         }
 
         .grid-item.featured {
@@ -141,15 +192,15 @@
         }
 
         .category {
-            font-size: 0.65em;
+            font-size: 0.75em;
             text-transform: lowercase;
             letter-spacing: 4px;
             margin-bottom: 20px;
-            opacity: 0.6;
-            font-weight: 400;
+            opacity: 0.85;
+            font-weight: 500;
             cursor: pointer;
             transition: opacity 0.4s ease;
-            color: #7a7363;
+            color: #3d3a32;
         }
 
         .category:hover {

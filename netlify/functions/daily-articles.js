@@ -110,6 +110,27 @@ function scoreArticle(article, categoryKey) {
   const content = (article.contentSnippet || '').toLowerCase();
   const fullText = title + ' ' + content;
   
+  // FILTER OUT: Gift guides, weekly updates, listicles, non-essay content
+  const excludePatterns = [
+    'gift guide', 'gifts for', 'gift ideas',
+    'weekly update', 'this week', 'week in',
+    'roundup', 'round-up', 'recap',
+    '10 things', '5 ways', 'best of', 'top 10', 'top 5',
+    'listicle', 'must-read', 'must read',
+    'trending', 'viral', 'hot take',
+    'sponsored', 'partner content',
+    'newsletter', 'briefing'
+  ];
+  
+  const hasExcludedPattern = excludePatterns.some(pattern => title.includes(pattern));
+  if (hasExcludedPattern) return -1000; // Exclude completely
+  
+  // Exclude titles with exclamation marks (usually clickbait/news)
+  if (title.includes('!')) return -1000;
+  
+  // Exclude very short titles (likely news headlines)
+  if (article.title.length < 30) score -= 20;
+  
   // 1. Recency score (0-30 points)
   const ageInHours = (Date.now() - article.pubDate.getTime()) / (1000 * 60 * 60);
   if (ageInHours < 24) score += 30;
