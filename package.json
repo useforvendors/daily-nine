@@ -1,8 +1,9 @@
 {
   "name": "daily-nine",
   "version": "1.0.0",
-  "description": "Daily Nine - Automated article aggregator",
+  "description": "Daily Nine - Essay aggregator with intelligent selection",
   "dependencies": {
-    "rss-parser": "^3.13.0"
+    "rss-parser": "^3.13.0",
+    "@netlify/blobs": "^7.0.0"
   }
 }

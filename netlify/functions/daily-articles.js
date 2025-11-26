@@ -1,48 +1,72 @@
 // netlify/functions/daily-articles.js
-// This serverless function fetches articles from RSS feeds
-
 const Parser = require('rss-parser');
+const { getStore } = require('@netlify/blobs');
 const parser = new Parser();
 
-// Free RSS feeds for each category
+// Essay-focused RSS feeds for each category
 const FEEDS = {
   artsculture: [
-    'https://www.theguardian.com/artanddesign/rss',
+    'https://www.thisiscolossal.com/feed/',
     'https://hyperallergic.com/feed/',
+    'https://www.themarginalian.org/feed/',
+    'https://aeon.co/feed.rss', // Has culture essays
+    'https://www.theparisreview.org/blog/feed/',
   ],
   literature: [
     'https://lithub.com/feed/',
-    'https://www.theguardian.com/books/rss',
+    'https://www.theparisreview.org/blog/feed/',
+    'https://www.themarginalian.org/feed/',
+    'https://believermag.com/feed/',
+    'https://onbeing.org/series/poetry-unbound/feed/',
   ],
   philosophy: [
-    'https://aeon.co/feed.rss',
-    'https://dailynous.com/feed/',
+    'https://aeon.co/philosophy/rss',
+    'https://www.philosophynow.org/rss/articles.xml',
+    'https://thepointmag.com/feed/',
+    'https://hedgehogreview.com/blog/feed',
   ],
   politics: [
-    'https://www.theguardian.com/politics/rss',
-    'https://foreignpolicy.com/feed/',
+    'https://www.foreignaffairs.com/rss.xml',
+    'https://www.theatlantic.com/feed/channel/politics/',
+    'https://jacobin.com/feed/',
+    'https://www.bostonreview.net/feed/',
+    'https://www.dissentmagazine.org/feed',
+    'https://time.com/feed/',
   ],
   science: [
-    'https://www.sciencedaily.com/rss/all.xml',
-    'https://www.theguardian.com/science/rss',
+    'https://www.quantamagazine.org/feed/',
+    'https://nautil.us/feed/',
+    'https://aeon.co/science/rss',
+    'https://undark.org/feed/',
+    'https://time.com/feed/',
   ],
   society: [
-    'https://www.theguardian.com/society/rss',
-    'https://www.theatlantic.com/feed/channel/health/',
+    'https://www.theatlantic.com/feed/all/',
+    'https://www.newyorker.com/feed/everything',
+    'https://www.bostonreview.net/feed/',
+    'https://aeon.co/society/rss',
+    'https://longreads.com/feed/',
+    'https://time.com/feed/',
   ],
   sports: [
-    'https://www.theguardian.com/sport/rss',
-    'https://www.theatlantic.com/feed/channel/health/',
+    'https://www.theringer.com/rss/index.xml',
+    'https://www.sbnation.com/rss/current',
   ],
   technology: [
-    'https://techcrunch.com/feed/',
+    'https://www.wired.com/feed/rss',
     'https://www.theverge.com/rss/index.xml',
+    'https://restofworld.org/feed/latest/',
+    'https://www.technologyreview.com/feed/',
+    'https://time.com/feed/',
   ],
   theology: [
-  'https://www.christianitytoday.com/ct.rss',
-  'https://religionnews.com/feed/',
-]
-
+    'https://onbeing.org/series/podcast/feed/',
+    'https://www.faith-theology.com/feeds/posts/default',
+    'https://experimentaltheology.blogspot.com/feeds/posts/default',
+    'https://afkimel.wordpress.com/feed/',
+    'https://theotherjournal.com/feed/',
+    'https://sojo.net/feeds/magazine.rss',
+  ]
 };
 
 const GRADIENTS = {
@@ -69,60 +93,105 @@ const CATEGORY_NAMES = {
   theology: "Theology"
 };
 
-// Quality scoring function
+// Category-specific keywords for better matching
+const CATEGORY_KEYWORDS = {
+  artsculture: ['art', 'artist', 'gallery', 'museum', 'painting', 'sculpture', 'design', 'exhibition', 'culture', 'creative', 'visual', 'aesthetic', 'craft'],
+  literature: ['book', 'author', 'novel', 'poetry', 'poem', 'writer', 'writing', 'literary', 'fiction', 'narrative', 'story', 'prose', 'verse'],
+  philosophy: ['philosophy', 'philosophical', 'ethics', 'moral', 'metaphysics', 'epistemology', 'logic', 'existence', 'consciousness', 'reason', 'truth', 'knowledge'],
+  politics: ['politics', 'political', 'policy', 'government', 'election', 'democracy', 'legislation', 'congress', 'parliament', 'vote', 'campaign', 'diplomatic'],
+  science: ['science', 'scientific', 'research', 'study', 'biology', 'physics', 'chemistry', 'astronomy', 'evolution', 'experiment', 'discovery', 'theory'],
+  society: ['society', 'social', 'community', 'culture', 'inequality', 'justice', 'economic', 'education', 'health', 'family', 'identity', 'class'],
+  sports: ['sport', 'athlete', 'game', 'team', 'player', 'championship', 'olympic', 'coach', 'competition', 'football', 'basketball', 'baseball', 'soccer'],
+  technology: ['technology', 'tech', 'software', 'hardware', 'digital', 'internet', 'computer', 'ai', 'artificial intelligence', 'robot', 'algorithm', 'data'],
+  theology: ['god', 'faith', 'religion', 'theology', 'church', 'spiritual', 'belief', 'christian', 'biblical', 'sacred', 'divine', 'prayer', 'scripture']
+};
+
+// Enhanced scoring function for essays
 function scoreArticle(article, categoryKey) {
   let score = 0;
-  
-  // 1. Recency score (0-40 points)
-  const ageInHours = (Date.now() - article.pubDate.getTime()) / (1000 * 60 * 60);
-  if (ageInHours < 24) score += 40;
-  else if (ageInHours < 48) score += 30;
-  else if (ageInHours < 72) score += 20;
-  else if (ageInHours < 168) score += 10; // Within a week
-  
-  // 2. Title quality (0-30 points)
   const title = article.title.toLowerCase();
+  const content = (article.contentSnippet || '').toLowerCase();
+  const fullText = title + ' ' + content;
   
-  // Longer, substantive titles (50-120 chars ideal)
-  if (article.title.length >= 50 && article.title.length <= 120) score += 10;
+  // 1. Recency score (0-30 points) - less weight than before
+  const ageInHours = (Date.now() - article.pubDate.getTime()) / (1000 * 60 * 60);
+  if (ageInHours < 24) score += 30;
+  else if (ageInHours < 72) score += 25;
+  else if (ageInHours < 168) score += 20; // Within a week
+  else if (ageInHours < 336) score += 15; // Within 2 weeks
+  else if (ageInHours < 720) score += 10; // Within a month
   
-  // Avoid clickbait patterns
-  const clickbaitWords = ['shocking', 'unbelievable', 'you won\'t believe', 'this one trick', 'hate him'];
-  const hasClickbait = clickbaitWords.some(word => title.includes(word));
-  if (hasClickbait) score -= 15;
-  
-  // Prefer analytical/thoughtful language
-  const qualityWords = ['how', 'why', 'understanding', 'perspective', 'analysis', 'exploring', 'behind', 'future of'];
-  const qualityWordCount = qualityWords.filter(word => title.includes(word)).length;
-  score += Math.min(qualityWordCount * 5, 15);
-  
-  // Question titles tend to be engaging
-  if (title.includes('?')) score += 5;
-  
-  // 3. Source diversity (0-15 points)
-  // Prefer diversity across sources (handled in selection logic)
-  
-  // 4. Content depth indicators (0-15 points)
-  const depthWords = ['revolution', 'transformation', 'evolution', 'rethinking', 'reimagining', 'unprecedented'];
-  const hasDepth = depthWords.some(word => title.includes(word));
-  if (hasDepth) score += 10;
+  // 2. Essay indicators (0-40 points) - major factor
+  const essayWords = ['essay', 'reflection', 'meditation', 'contemplation', 'exploration', 'examination', 'perspective', 'thoughts on', 'thinking about'];
+  const essayCount = essayWords.filter(word => fullText.includes(word)).length;
+  score += Math.min(essayCount * 10, 25);
   
   // Long-form indicators
-  const longformWords = ['deep dive', 'comprehensive', 'complete guide', 'everything you need'];
-  const isLongform = longformWords.some(phrase => title.includes(phrase));
-  if (isLongform) score += 5;
+  const longformWords = ['deep dive', 'in-depth', 'long read', 'comprehensive', 'complete guide', 'everything you need', 'understanding'];
+  const longformCount = longformWords.filter(phrase => fullText.includes(phrase)).length;
+  score += Math.min(longformCount * 8, 15);
+  
+  // 3. Category relevance (0-40 points) - crucial for proper categorization
+  const categoryWords = CATEGORY_KEYWORDS[categoryKey];
+  const matchCount = categoryWords.filter(word => fullText.includes(word)).length;
+  score += Math.min(matchCount * 5, 40);
+  
+  // 4. Title quality (0-25 points)
+  // Longer, substantive titles (40-150 chars ideal for essays)
+  if (article.title.length >= 40 && article.title.length <= 150) score += 10;
+  
+  // Avoid clickbait and news-style patterns
+  const clickbaitWords = ['shocking', 'unbelievable', 'you won\'t believe', 'this one trick', 'breaking', 'just in', 'developing'];
+  const hasClickbait = clickbaitWords.some(word => title.includes(word));
+  if (hasClickbait) score -= 25;
+  
+  // Prefer analytical/thoughtful language
+  const qualityWords = ['how', 'why', 'what if', 'understanding', 'rethinking', 'reimagining', 'reconsidering', 'beyond'];
+  const qualityWordCount = qualityWords.filter(word => title.includes(word)).length;
+  score += Math.min(qualityWordCount * 5, 10);
+  
+  // Colon titles (common in essays: "Main Title: Subtitle")
+  if (title.includes(':')) score += 5;
+  
+  // 5. Depth indicators (0-15 points)
+  const depthWords = ['revolution', 'transformation', 'evolution', 'crisis', 'future of', 'history of', 'meaning of', 'nature of'];
+  const hasDepth = depthWords.some(word => fullText.includes(word));
+  if (hasDepth) score += 15;
   
   return score;
 }
 
-async function fetchArticlesForCategory(categoryKey) {
+// Get article history from Netlify Blobs
+async function getArticleHistory(store) {
+  try {
+    const history = await store.get('article-history', { type: 'json' });
+    return history || { articles: [] };
+  } catch (error) {
+    console.log('No history found, starting fresh');
+    return { articles: [] };
+  }
+}
+
+// Save article history to Netlify Blobs
+async function saveArticleHistory(store, history) {
+  await store.setJSON('article-history', history);
+}
+
+// Clean old entries (older than 7 days)
+function cleanHistory(history) {
+  const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+  history.articles = history.articles.filter(item => item.timestamp > sevenDaysAgo);
+  return history;
+}
+
+async function fetchArticlesForCategory(categoryKey, usedUrls, history) {
   const feeds = FEEDS[categoryKey];
   const allArticles = [];
 
   for (const feedUrl of feeds) {
     try {
       const feed = await parser.parseURL(feedUrl);
-      const articles = feed.items.slice(0, 10).map(item => ({
+      const articles = feed.items.slice(0, 20).map(item => ({
         title: item.title,
         url: item.link,
         pubDate: new Date(item.pubDate || item.isoDate),
@@ -135,13 +204,20 @@ async function fetchArticlesForCategory(categoryKey) {
     }
   }
 
-  // Score all articles
-  const scoredArticles = allArticles.map(article => ({
+  // Filter out recently shown articles (last 7 days)
+  const recentUrls = new Set(history.articles.map(item => item.url));
+  const freshArticles = allArticles.filter(article => !recentUrls.has(article.url));
+
+  // Filter out articles already used in other categories today
+  const availableArticles = freshArticles.filter(article => !usedUrls.has(article.url));
+
+  // Score all available articles
+  const scoredArticles = availableArticles.map(article => ({
     ...article,
     score: scoreArticle(article, categoryKey)
   }));
 
-  // Sort by score (higher is better)
+  // Sort by score
   scoredArticles.sort((a, b) => b.score - a.score);
 
   // Ensure source diversity in top picks
@@ -154,14 +230,16 @@ async function fetchArticlesForCategory(categoryKey) {
     if (!usedSources.has(article.source) || selectedArticles.length >= 6) {
       selectedArticles.push(article);
       usedSources.add(article.source);
+      usedUrls.add(article.url); // Mark as used for other categories
     }
   }
   
-  // Second pass: fill remaining slots with best remaining articles
+  // Second pass: fill remaining slots
   for (const article of scoredArticles) {
     if (selectedArticles.length >= 9) break;
     if (!selectedArticles.includes(article)) {
       selectedArticles.push(article);
+      usedUrls.add(article.url);
     }
   }
 
@@ -175,30 +253,50 @@ async function fetchArticlesForCategory(categoryKey) {
 
 exports.handler = async function(event, context) {
   try {
+    // Initialize Netlify Blobs store
+    const store = getStore('daily-nine');
+    
+    // Get article history
+    let history = await getArticleHistory(store);
+    history = cleanHistory(history);
+    
     const data = {};
+    const usedUrls = new Set(); // Track URLs used across categories today
+    const newArticles = []; // Track articles selected today
 
-    // Fetch articles for all categories in parallel
-    const categoryPromises = Object.keys(FEEDS).map(async (categoryKey) => {
-      const articles = await fetchArticlesForCategory(categoryKey);
+    // Fetch articles for all categories sequentially to prevent duplicates
+    for (const categoryKey of Object.keys(FEEDS)) {
+      const articles = await fetchArticlesForCategory(categoryKey, usedUrls, history);
       data[categoryKey] = {
         name: CATEGORY_NAMES[categoryKey],
         gradient: GRADIENTS[categoryKey],
         articles: articles
       };
-    });
+      
+      // Add to new articles list
+      articles.forEach(article => {
+        newArticles.push({
+          url: article.url,
+          timestamp: Date.now()
+        });
+      });
+    }
 
-    await Promise.all(categoryPromises);
+    // Update history with newly selected articles
+    history.articles.push(...newArticles);
+    await saveArticleHistory(store, history);
 
     return {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
-        'Cache-Control': 'public, max-age=3600' // Cache for 1 hour
+        'Cache-Control': 'public, max-age=3600'
       },
       body: JSON.stringify(data)
     };
   } catch (error) {
+    console.error('Error:', error);
     return {
       statusCode: 500,
       body: JSON.stringify({ error: error.message })
