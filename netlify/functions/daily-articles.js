@@ -2,7 +2,7 @@
 const Parser = require('rss-parser');
 const parser = new Parser();
 
-// Essay-focused RSS feeds for each category
+// Essay-focused RSS feeds for each category - CORRECTED URLS
 const FEEDS = {
   artsculture: [
     'https://www.thisiscolossal.com/feed/',
@@ -19,10 +19,9 @@ const FEEDS = {
     'https://onbeing.org/series/poetry-unbound/feed/',
   ],
   philosophy: [
-    'https://aeon.co/philosophy/rss',
-    'https://www.philosophynow.org/rss/articles.xml',
+    'https://aeon.co/philosophy.rss',
     'https://thepointmag.com/feed/',
-    'https://hedgehogreview.com/blog/feed',
+    'https://dailynous.com/feed/',
   ],
   politics: [
     'https://www.foreignaffairs.com/rss.xml',
@@ -35,7 +34,7 @@ const FEEDS = {
   science: [
     'https://www.quantamagazine.org/feed/',
     'https://nautil.us/feed/',
-    'https://aeon.co/science/rss',
+    'https://aeon.co/science.rss',
     'https://undark.org/feed/',
     'https://time.com/feed/',
   ],
@@ -43,13 +42,13 @@ const FEEDS = {
     'https://www.theatlantic.com/feed/all/',
     'https://www.newyorker.com/feed/everything',
     'https://www.bostonreview.net/feed/',
-    'https://aeon.co/society/rss',
+    'https://aeon.co/society.rss',
     'https://longreads.com/feed/',
     'https://time.com/feed/',
   ],
   sports: [
-    'https://www.theringer.com/rss/index.xml',
-    'https://www.sbnation.com/rss/current',
+    'https://theringer.com/rss/index.xml',
+    'https://sbnation.com/rss/current.xml',
   ],
   technology: [
     'https://www.wired.com/feed/rss',
@@ -64,7 +63,6 @@ const FEEDS = {
     'https://experimentaltheology.blogspot.com/feeds/posts/default',
     'https://afkimel.wordpress.com/feed/',
     'https://theotherjournal.com/feed/',
-    'https://sojo.net/feeds/magazine.rss',
   ]
 };
 
@@ -103,14 +101,6 @@ const CATEGORY_KEYWORDS = {
   sports: ['sport', 'athlete', 'game', 'team', 'player', 'championship', 'olympic', 'coach', 'competition', 'football', 'basketball', 'baseball', 'soccer'],
   technology: ['technology', 'tech', 'software', 'hardware', 'digital', 'internet', 'computer', 'ai', 'artificial intelligence', 'robot', 'algorithm', 'data'],
   theology: ['god', 'faith', 'religion', 'theology', 'church', 'spiritual', 'belief', 'christian', 'biblical', 'sacred', 'divine', 'prayer', 'scripture']
-};
-
-// Simple in-memory cache for the current session
-// This won't persist across function invocations, but that's okay - 
-// the key goal is preventing duplicates within the same day/request
-let sessionHistory = {
-  articles: [],
-  lastUpdated: null
 };
 
 // Enhanced scoring function for essays
