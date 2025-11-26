@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +14,7 @@
 
         body {
             font-family: 'Palatino', 'Palatino Linotype', 'Book Antiqua', serif;
-            background: linear-gradient(to bottom, #d4d0c5 0%, #c5c0b5 100%);
+            background: linear-gradient(to bottom, #dcd8cd 0%, #cdc9be 100%);
             color: #3d3a32;
             padding: 40px 20px;
             min-height: 100vh;
@@ -73,37 +74,36 @@
             border-color: #a89f88;
         }
 
-        /* Lavender gradient: darkest to lightest in clockwise order */
-        .grid-item:nth-child(1) { /* Top-left - darkest (#1) */
+        /* Lavender gradient: darkest to lightest, left to right, top to bottom */
+        .grid-item:nth-child(1) { /* Top-left - darkest */
             background: linear-gradient(135deg, #d5d1db 0%, #cdc9d5 100%);
         }
-        .grid-item:nth-child(2) { /* Top-center (#2) */
-            background: linear-gradient(135deg, #d9d5de 0%, #d1cdd8 100%);
+        .grid-item:nth-child(2) { /* Top-center */
+            background: linear-gradient(135deg, #d9d5df 0%, #d1cdd9 100%);
         }
-        .grid-item:nth-child(3) { /* Top-right (#3) */
-            background: linear-gradient(135deg, #ddd9e2 0%, #d5d1db 100%);
+        .grid-item:nth-child(3) { /* Top-right */
+            background: linear-gradient(135deg, #ddd9e3 0%, #d5d1dd 100%);
         }
-        .grid-item:nth-child(6) { /* Right-middle (#4) */
-            background: linear-gradient(135deg, #e1dde5 0%, #d9d5de 100%);
+        .grid-item:nth-child(4) { /* Middle-left */
+            background: linear-gradient(135deg, #e1dde7 0%, #d9d5e1 100%);
         }
-        .grid-item:nth-child(9) { /* Bottom-right (#5) */
-            background: linear-gradient(135deg, #e5e1e9 0%, #ddd9e2 100%);
+        .grid-item:nth-child(5) { /* Middle-center */
+            background: linear-gradient(135deg, #e5e1eb 0%, #ddd9e5 100%);
         }
-        .grid-item:nth-child(8) { /* Bottom-center (#6) */
-            background: linear-gradient(135deg, #e9e5ec 0%, #e1dde5 100%);
+        .grid-item:nth-child(6) { /* Middle-right */
+            background: linear-gradient(135deg, #e9e5ef 0%, #e1dde9 100%);
         }
-        .grid-item:nth-child(7) { /* Bottom-left (#7) */
-            background: linear-gradient(135deg, #ede9ef 0%, #e5e1e9 100%);
+        .grid-item:nth-child(7) { /* Bottom-left */
+            background: linear-gradient(135deg, #ede9f2 0%, #e5e1ed 100%);
         }
-        .grid-item:nth-child(4) { /* Left-middle (#8) */
-            background: linear-gradient(135deg, #f1edf3 0%, #e9e5ec 100%);
+        .grid-item:nth-child(8) { /* Bottom-center */
+            background: linear-gradient(135deg, #f1edf6 0%, #e9e5f1 100%);
         }
-        .grid-item:nth-child(5) { /* Center - lightest (#9) */
-            background: linear-gradient(135deg, #f5f1f6 0%, #edeaf0 100%);
+        .grid-item:nth-child(9) { /* Bottom-right - lightest */
+            background: linear-gradient(135deg, #f5f1f9 0%, #edeaf5 100%);
         }
 
-
-        /* Enso circles as SVG backgrounds - each unique */
+        /* Enso circles */
         .enso {
             width: 70%;
             height: 70%;
@@ -130,26 +130,6 @@
             .header {
                 margin-bottom: 50px;
             }
-        }
-
-        .loading {
-            grid-column: 1/-1;
-            text-align: center;
-            padding: 100px 20px;
-            color: #8a8373;
-            font-size: 0.9em;
-            letter-spacing: 2px;
-            font-weight: 300;
-        }
-
-        .error {
-            grid-column: 1/-1;
-            text-align: center;
-            padding: 100px 20px;
-            color: #a86b5a;
-            font-size: 0.9em;
-            letter-spacing: 2px;
-            font-weight: 300;
         }
     </style>
 </head>
