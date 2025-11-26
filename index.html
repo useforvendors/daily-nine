@@ -263,139 +263,26 @@
     <div class="grid-container" id="grid"></div>
 
     <script>
-        let data = {
-            artsculture: {
-                name: "Arts & Culture",
-                articles: [
-                    { title: "The Quiet Revolution in Contemporary Ceramics", url: "#", featured: true },
-                    { title: "On the Nature of Beauty in Japanese Garden Design", url: "#", featured: false },
-                    { title: "Minimalism and the Search for Essential Form", url: "#", featured: false },
-                    { title: "The Architecture of Silence", url: "#", featured: false },
-                    { title: "Rediscovering the Ancient Art of Calligraphy", url: "#", featured: false },
-                    { title: "How Light Shapes Sacred Spaces", url: "#", featured: false },
-                    { title: "The Philosophy of Wabi-Sabi in Modern Design", url: "#", featured: false },
-                    { title: "Contemplative Photography and the Present Moment", url: "#", featured: false },
-                    { title: "The Lost Art of Handmade Paper", url: "#", featured: false }
-                ]
-            },
-            literature: {
-                name: "Literature",
-                articles: [
-                    { title: "Poetry as a Path to Understanding", url: "#", featured: true },
-                    { title: "The Enduring Wisdom of Ursula K. Le Guin", url: "#", featured: false },
-                    { title: "On Rereading: Why We Return to Beloved Books", url: "#", featured: false },
-                    { title: "The Essay as a Form of Meditation", url: "#", featured: false },
-                    { title: "Translation and the Limits of Language", url: "#", featured: false },
-                    { title: "What We Talk About When We Talk About Stories", url: "#", featured: false },
-                    { title: "The Power of Slow Reading in a Fast World", url: "#", featured: false },
-                    { title: "Literary Silence: What Writers Leave Unsaid", url: "#", featured: false },
-                    { title: "The Art of the Opening Sentence", url: "#", featured: false }
-                ]
-            },
-            philosophy: {
-                name: "Philosophy",
-                articles: [
-                    { title: "The Paradox of Trying Not to Try", url: "#", featured: true },
-                    { title: "On Being Nobody: The Freedom of Anonymity", url: "#", featured: false },
-                    { title: "Time, Memory, and the Self", url: "#", featured: false },
-                    { title: "What We Owe to Each Other: Rethinking Ethics", url: "#", featured: false },
-                    { title: "The Philosophy of Enough", url: "#", featured: false },
-                    { title: "Attention as a Moral Act", url: "#", featured: false },
-                    { title: "On the Value of Uncertainty", url: "#", featured: false },
-                    { title: "Solitude and the Examined Life", url: "#", featured: false },
-                    { title: "The Ethics of Care in a Technological Age", url: "#", featured: false }
-                ]
-            },
-            politics: {
-                name: "Politics",
-                articles: [
-                    { title: "Democracy in the Age of Distraction", url: "#", featured: true },
-                    { title: "What Does It Mean to Be a Citizen?", url: "#", featured: false },
-                    { title: "The Politics of Listening", url: "#", featured: false },
-                    { title: "On Civil Disagreement and Public Discourse", url: "#", featured: false },
-                    { title: "Power, Justice, and the Common Good", url: "#", featured: false },
-                    { title: "Reimagining Political Community", url: "#", featured: false },
-                    { title: "The Lost Art of Political Compromise", url: "#", featured: false },
-                    { title: "Democracy's Quiet Crisis", url: "#", featured: false },
-                    { title: "What Would a Politics of Care Look Like?", url: "#", featured: false }
-                ]
-            },
-            science: {
-                name: "Science",
-                articles: [
-                    { title: "The Mystery of Consciousness Remains", url: "#", featured: true },
-                    { title: "What Trees Know That We Don't", url: "#", featured: false },
-                    { title: "Time in the Quantum World", url: "#", featured: false },
-                    { title: "The Limits of Scientific Knowledge", url: "#", featured: false },
-                    { title: "Understanding the Universe Through Mathematics", url: "#", featured: false },
-                    { title: "The Beauty of Fundamental Physics", url: "#", featured: false },
-                    { title: "How Life Began: New Theories", url: "#", featured: false },
-                    { title: "The Science of Mindfulness", url: "#", featured: false },
-                    { title: "What Astronomy Teaches Us About Humility", url: "#", featured: false }
-                ]
-            },
-            society: {
-                name: "Society",
-                articles: [
-                    { title: "The Art of Gathering in a Fragmented World", url: "#", featured: true },
-                    { title: "What We've Lost in the Pursuit of Efficiency", url: "#", featured: false },
-                    { title: "Community in the Digital Age", url: "#", featured: false },
-                    { title: "The Value of Public Spaces", url: "#", featured: false },
-                    { title: "On Leisure and the Good Life", url: "#", featured: false },
-                    { title: "What Makes a Place Feel Like Home?", url: "#", featured: false },
-                    { title: "The Social Life of Small Talk", url: "#", featured: false },
-                    { title: "Rituals and Their Meaning in Modern Life", url: "#", featured: false },
-                    { title: "The Dignity of Work Reconsidered", url: "#", featured: false }
-                ]
-            },
-            sports: {
-                name: "Sports",
-                articles: [
-                    { title: "The Philosophy of Play", url: "#", featured: true },
-                    { title: "What Sport Teaches About Character", url: "#", featured: false },
-                    { title: "The Beauty of Basketball: An Essay", url: "#", featured: false },
-                    { title: "On Being a Fan in the Modern Age", url: "#", featured: false },
-                    { title: "Sport as Metaphor for Life", url: "#", featured: false },
-                    { title: "The Ethics of Competition", url: "#", featured: false },
-                    { title: "What We Talk About When We Talk About Winning", url: "#", featured: false },
-                    { title: "The Lost Art of Sportsmanship", url: "#", featured: false },
-                    { title: "Movement, Mind, and Mastery", url: "#", featured: false }
-                ]
-            },
-            technology: {
-                name: "Technology",
-                articles: [
-                    { title: "The Future of Human Attention", url: "#", featured: true },
-                    { title: "What Algorithms Can't Understand", url: "#", featured: false },
-                    { title: "Technology and the Meaning of Work", url: "#", featured: false },
-                    { title: "The Ethics of Artificial Intelligence", url: "#", featured: false },
-                    { title: "Digital Minimalism and the Good Life", url: "#", featured: false },
-                    { title: "What We Lose in the Age of Convenience", url: "#", featured: false },
-                    { title: "The Internet and the Death of Boredom", url: "#", featured: false },
-                    { title: "Can Technology Save Us From Technology?", url: "#", featured: false },
-                    { title: "The Human in the Machine", url: "#", featured: false }
-                ]
-            },
-            theology: {
-                name: "Theology",
-                articles: [
-                    { title: "On Prayer and Presence", url: "#", featured: true },
-                    { title: "The Mystery of Faith in a Secular Age", url: "#", featured: false },
-                    { title: "What Does It Mean to Be Human?", url: "#", featured: false },
-                    { title: "Contemplation and the Life of the Spirit", url: "#", featured: false },
-                    { title: "Grace, Doubt, and the Journey Inward", url: "#", featured: false },
-                    { title: "The Silence of God", url: "#", featured: false },
-                    { title: "On Suffering and Redemption", url: "#", featured: false },
-                    { title: "Sacred Time in a Secular World", url: "#", featured: false },
-                    { title: "The Practice of Sabbath Rest", url: "#", featured: false }
-                ]
-            }
-        };
+        let data = null;
+        let loading = true;
+
+        document.getElementById('grid').innerHTML = '<div class="loading">loading essays...</div>';
+
+        // Fetch articles from your Netlify function
+        fetch('/.netlify/functions/daily-articles')
+            .then(response => response.json())
+            .then(fetchedData => {
+                data = fetchedData;
+                loading = false;
+                showMainPage();
+            })
+            .catch(error => {
+                console.error('Error loading articles:', error);
+                document.getElementById('grid').innerHTML = '<div class="error">unable to load essays<br>please refresh</div>';
+            });
 
         let currentView = 'main';
         let currentCategory = null;
-
-        showMainPage();
 
         function showMainPage() {
             currentView = 'main';
@@ -432,6 +319,8 @@
         }
 
         function renderGrid() {
+            if (!data || loading) return;
+            
             const grid = document.getElementById('grid');
             grid.innerHTML = '';
 
