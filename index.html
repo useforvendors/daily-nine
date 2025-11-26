@@ -13,7 +13,7 @@
 
         body {
             font-family: 'Palatino', 'Palatino Linotype', 'Book Antiqua', serif;
-            background: linear-gradient(to bottom, #e8e4d9 0%, #d9d4c9 100%);
+            background: linear-gradient(to bottom, #d4d0c5 0%, #c5c0b5 100%);
             color: #3d3a32;
             padding: 40px 20px;
             min-height: 100vh;
@@ -42,18 +42,18 @@
         }
 
         .header p {
-            font-size: 0.85em;
-            color: #8a8373;
+            font-size: 0.95em;
+            color: #6d6656;
             letter-spacing: 3px;
-            font-weight: 300;
+            font-weight: 400;
             line-height: 1.8;
         }
 
         .category-title {
-            font-size: 1em;
-            color: #6d6656;
+            font-size: 1.15em;
+            color: #5a5447;
             letter-spacing: 4px;
-            font-weight: 400;
+            font-weight: 500;
             margin-top: 10px;
             text-transform: lowercase;
         }
@@ -74,38 +74,37 @@
             overflow: hidden;
             cursor: pointer;
             transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #f5f1e8;
             border: 1px solid #d4cfc0;
             box-shadow: 0 2px 8px rgba(90, 84, 71, 0.08);
         }
 
-        /* Color washes for each category - now more visible */
+        /* Color washes for each category - more visible */
         .grid-item[data-category="artsculture"] {
-            background: linear-gradient(135deg, #f5d5c8 0%, #f0c0b0 100%);
+            background: linear-gradient(135deg, #f5cdc0 0%, #edb8a8 100%);
         }
         .grid-item[data-category="literature"] {
-            background: linear-gradient(135deg, #f5e0c0 0%, #f0d0a0 100%);
+            background: linear-gradient(135deg, #f5d8b0 0%, #edc890 100%);
         }
         .grid-item[data-category="philosophy"] {
-            background: linear-gradient(135deg, #f5ecc0 0%, #f0e0a0 100%);
+            background: linear-gradient(135deg, #f5e8b0 0%, #edd890 100%);
         }
         .grid-item[data-category="politics"] {
-            background: linear-gradient(135deg, #d0e8c8 0%, #c0e0b0 100%);
+            background: linear-gradient(135deg, #c8e0b8 0%, #b0d8a0 100%);
         }
         .grid-item[data-category="science"] {
-            background: linear-gradient(135deg, #c8d8e8 0%, #b0c8e0 100%);
+            background: linear-gradient(135deg, #c0d0e0 0%, #a8c0d8 100%);
         }
         .grid-item[data-category="society"] {
-            background: linear-gradient(135deg, #d8c8e8 0%, #c8b0e0 100%);
+            background: linear-gradient(135deg, #d0c0e0 0%, #c0a8d8 100%);
         }
         .grid-item[data-category="sports"] {
-            background: linear-gradient(135deg, #e8c8d0 0%, #e0b0c0 100%);
+            background: linear-gradient(135deg, #e0c0c8 0%, #d8a8b8 100%);
         }
         .grid-item[data-category="technology"] {
-            background: linear-gradient(135deg, #c8d0d8 0%, #b0c0d0 100%);
+            background: linear-gradient(135deg, #c0c8d0 0%, #a8b8c8 100%);
         }
         .grid-item[data-category="theology"] {
-            background: linear-gradient(135deg, #e0c8d8 0%, #d8b0c8 100%);
+            background: linear-gradient(135deg, #d8c0d0 0%, #d0a8c0 100%);
         }
 
         .grid-item.featured {
@@ -133,12 +132,12 @@
             padding: 40px;
             color: #3d3a32;
             text-align: center;
-            background: linear-gradient(135deg, rgba(245, 241, 232, 0.92) 0%, rgba(235, 230, 220, 0.92) 100%);
+            background: linear-gradient(135deg, rgba(245, 241, 232, 0.85) 0%, rgba(235, 230, 220, 0.85) 100%);
             transition: all 0.6s ease;
         }
 
         .grid-item:hover .overlay {
-            background: linear-gradient(135deg, rgba(252, 249, 242, 0.96) 0%, rgba(245, 241, 232, 0.96) 100%);
+            background: linear-gradient(135deg, rgba(252, 249, 242, 0.92) 0%, rgba(245, 241, 232, 0.92) 100%);
         }
 
         .category {
@@ -264,156 +263,139 @@
     <div class="grid-container" id="grid"></div>
 
     <script>
-        let data = null;
-        let loading = true;
-
-        document.getElementById('grid').innerHTML = '<div class="loading">loading essays...</div>';
-
-        // Try to fetch from API, fall back to sample data for preview
-        fetch('/.netlify/functions/daily-articles')
-            .then(response => response.json())
-            .then(fetchedData => {
-                data = fetchedData;
-                loading = false;
-                showMainPage();
-            })
-            .catch(error => {
-                console.log('Using sample data for preview');
-                // Sample data for preview
-                data = {
-                    artsculture: {
-                        name: "Arts & Culture",
-                        articles: [
-                            { title: "The Quiet Revolution in Contemporary Ceramics", url: "#", featured: true },
-                            { title: "On the Nature of Beauty in Japanese Garden Design", url: "#", featured: false },
-                            { title: "Minimalism and the Search for Essential Form", url: "#", featured: false },
-                            { title: "The Architecture of Silence", url: "#", featured: false },
-                            { title: "Rediscovering the Ancient Art of Calligraphy", url: "#", featured: false },
-                            { title: "How Light Shapes Sacred Spaces", url: "#", featured: false },
-                            { title: "The Philosophy of Wabi-Sabi in Modern Design", url: "#", featured: false },
-                            { title: "Contemplative Photography and the Present Moment", url: "#", featured: false },
-                            { title: "The Lost Art of Handmade Paper", url: "#", featured: false }
-                        ]
-                    },
-                    literature: {
-                        name: "Literature",
-                        articles: [
-                            { title: "Poetry as a Path to Understanding", url: "#", featured: true },
-                            { title: "The Enduring Wisdom of Ursula K. Le Guin", url: "#", featured: false },
-                            { title: "On Rereading: Why We Return to Beloved Books", url: "#", featured: false },
-                            { title: "The Essay as a Form of Meditation", url: "#", featured: false },
-                            { title: "Translation and the Limits of Language", url: "#", featured: false },
-                            { title: "What We Talk About When We Talk About Stories", url: "#", featured: false },
-                            { title: "The Power of Slow Reading in a Fast World", url: "#", featured: false },
-                            { title: "Literary Silence: What Writers Leave Unsaid", url: "#", featured: false },
-                            { title: "The Art of the Opening Sentence", url: "#", featured: false }
-                        ]
-                    },
-                    philosophy: {
-                        name: "Philosophy",
-                        articles: [
-                            { title: "The Paradox of Trying Not to Try", url: "#", featured: true },
-                            { title: "On Being Nobody: The Freedom of Anonymity", url: "#", featured: false },
-                            { title: "Time, Memory, and the Self", url: "#", featured: false },
-                            { title: "What We Owe to Each Other: Rethinking Ethics", url: "#", featured: false },
-                            { title: "The Philosophy of Enough", url: "#", featured: false },
-                            { title: "Attention as a Moral Act", url: "#", featured: false },
-                            { title: "On the Value of Uncertainty", url: "#", featured: false },
-                            { title: "Solitude and the Examined Life", url: "#", featured: false },
-                            { title: "The Ethics of Care in a Technological Age", url: "#", featured: false }
-                        ]
-                    },
-                    politics: {
-                        name: "Politics",
-                        articles: [
-                            { title: "Democracy in the Age of Distraction", url: "#", featured: true },
-                            { title: "What Does It Mean to Be a Citizen?", url: "#", featured: false },
-                            { title: "The Politics of Listening", url: "#", featured: false },
-                            { title: "On Civil Disagreement and Public Discourse", url: "#", featured: false },
-                            { title: "Power, Justice, and the Common Good", url: "#", featured: false },
-                            { title: "Reimagining Political Community", url: "#", featured: false },
-                            { title: "The Lost Art of Political Compromise", url: "#", featured: false },
-                            { title: "Democracy's Quiet Crisis", url: "#", featured: false },
-                            { title: "What Would a Politics of Care Look Like?", url: "#", featured: false }
-                        ]
-                    },
-                    science: {
-                        name: "Science",
-                        articles: [
-                            { title: "The Mystery of Consciousness Remains", url: "#", featured: true },
-                            { title: "What Trees Know That We Don't", url: "#", featured: false },
-                            { title: "Time in the Quantum World", url: "#", featured: false },
-                            { title: "The Limits of Scientific Knowledge", url: "#", featured: false },
-                            { title: "Understanding the Universe Through Mathematics", url: "#", featured: false },
-                            { title: "The Beauty of Fundamental Physics", url: "#", featured: false },
-                            { title: "How Life Began: New Theories", url: "#", featured: false },
-                            { title: "The Science of Mindfulness", url: "#", featured: false },
-                            { title: "What Astronomy Teaches Us About Humility", url: "#", featured: false }
-                        ]
-                    },
-                    society: {
-                        name: "Society",
-                        articles: [
-                            { title: "The Art of Gathering in a Fragmented World", url: "#", featured: true },
-                            { title: "What We've Lost in the Pursuit of Efficiency", url: "#", featured: false },
-                            { title: "Community in the Digital Age", url: "#", featured: false },
-                            { title: "The Value of Public Spaces", url: "#", featured: false },
-                            { title: "On Leisure and the Good Life", url: "#", featured: false },
-                            { title: "What Makes a Place Feel Like Home?", url: "#", featured: false },
-                            { title: "The Social Life of Small Talk", url: "#", featured: false },
-                            { title: "Rituals and Their Meaning in Modern Life", url: "#", featured: false },
-                            { title: "The Dignity of Work Reconsidered", url: "#", featured: false }
-                        ]
-                    },
-                    sports: {
-                        name: "Sports",
-                        articles: [
-                            { title: "The Philosophy of Play", url: "#", featured: true },
-                            { title: "What Sport Teaches About Character", url: "#", featured: false },
-                            { title: "The Beauty of Basketball: An Essay", url: "#", featured: false },
-                            { title: "On Being a Fan in the Modern Age", url: "#", featured: false },
-                            { title: "Sport as Metaphor for Life", url: "#", featured: false },
-                            { title: "The Ethics of Competition", url: "#", featured: false },
-                            { title: "What We Talk About When We Talk About Winning", url: "#", featured: false },
-                            { title: "The Lost Art of Sportsmanship", url: "#", featured: false },
-                            { title: "Movement, Mind, and Mastery", url: "#", featured: false }
-                        ]
-                    },
-                    technology: {
-                        name: "Technology",
-                        articles: [
-                            { title: "The Future of Human Attention", url: "#", featured: true },
-                            { title: "What Algorithms Can't Understand", url: "#", featured: false },
-                            { title: "Technology and the Meaning of Work", url: "#", featured: false },
-                            { title: "The Ethics of Artificial Intelligence", url: "#", featured: false },
-                            { title: "Digital Minimalism and the Good Life", url: "#", featured: false },
-                            { title: "What We Lose in the Age of Convenience", url: "#", featured: false },
-                            { title: "The Internet and the Death of Boredom", url: "#", featured: false },
-                            { title: "Can Technology Save Us From Technology?", url: "#", featured: false },
-                            { title: "The Human in the Machine", url: "#", featured: false }
-                        ]
-                    },
-                    theology: {
-                        name: "Theology",
-                        articles: [
-                            { title: "On Prayer and Presence", url: "#", featured: true },
-                            { title: "The Mystery of Faith in a Secular Age", url: "#", featured: false },
-                            { title: "What Does It Mean to Be Human?", url: "#", featured: false },
-                            { title: "Contemplation and the Life of the Spirit", url: "#", featured: false },
-                            { title: "Grace, Doubt, and the Journey Inward", url: "#", featured: false },
-                            { title: "The Silence of God", url: "#", featured: false },
-                            { title: "On Suffering and Redemption", url: "#", featured: false },
-                            { title: "Sacred Time in a Secular World", url: "#", featured: false },
-                            { title: "The Practice of Sabbath Rest", url: "#", featured: false }
-                        ]
-                    }
-                };
-                loading = false;
-                showMainPage();
-            });
+        let data = {
+            artsculture: {
+                name: "Arts & Culture",
+                articles: [
+                    { title: "The Quiet Revolution in Contemporary Ceramics", url: "#", featured: true },
+                    { title: "On the Nature of Beauty in Japanese Garden Design", url: "#", featured: false },
+                    { title: "Minimalism and the Search for Essential Form", url: "#", featured: false },
+                    { title: "The Architecture of Silence", url: "#", featured: false },
+                    { title: "Rediscovering the Ancient Art of Calligraphy", url: "#", featured: false },
+                    { title: "How Light Shapes Sacred Spaces", url: "#", featured: false },
+                    { title: "The Philosophy of Wabi-Sabi in Modern Design", url: "#", featured: false },
+                    { title: "Contemplative Photography and the Present Moment", url: "#", featured: false },
+                    { title: "The Lost Art of Handmade Paper", url: "#", featured: false }
+                ]
+            },
+            literature: {
+                name: "Literature",
+                articles: [
+                    { title: "Poetry as a Path to Understanding", url: "#", featured: true },
+                    { title: "The Enduring Wisdom of Ursula K. Le Guin", url: "#", featured: false },
+                    { title: "On Rereading: Why We Return to Beloved Books", url: "#", featured: false },
+                    { title: "The Essay as a Form of Meditation", url: "#", featured: false },
+                    { title: "Translation and the Limits of Language", url: "#", featured: false },
+                    { title: "What We Talk About When We Talk About Stories", url: "#", featured: false },
+                    { title: "The Power of Slow Reading in a Fast World", url: "#", featured: false },
+                    { title: "Literary Silence: What Writers Leave Unsaid", url: "#", featured: false },
+                    { title: "The Art of the Opening Sentence", url: "#", featured: false }
+                ]
+            },
+            philosophy: {
+                name: "Philosophy",
+                articles: [
+                    { title: "The Paradox of Trying Not to Try", url: "#", featured: true },
+                    { title: "On Being Nobody: The Freedom of Anonymity", url: "#", featured: false },
+                    { title: "Time, Memory, and the Self", url: "#", featured: false },
+                    { title: "What We Owe to Each Other: Rethinking Ethics", url: "#", featured: false },
+                    { title: "The Philosophy of Enough", url: "#", featured: false },
+                    { title: "Attention as a Moral Act", url: "#", featured: false },
+                    { title: "On the Value of Uncertainty", url: "#", featured: false },
+                    { title: "Solitude and the Examined Life", url: "#", featured: false },
+                    { title: "The Ethics of Care in a Technological Age", url: "#", featured: false }
+                ]
+            },
+            politics: {
+                name: "Politics",
+                articles: [
+                    { title: "Democracy in the Age of Distraction", url: "#", featured: true },
+                    { title: "What Does It Mean to Be a Citizen?", url: "#", featured: false },
+                    { title: "The Politics of Listening", url: "#", featured: false },
+                    { title: "On Civil Disagreement and Public Discourse", url: "#", featured: false },
+                    { title: "Power, Justice, and the Common Good", url: "#", featured: false },
+                    { title: "Reimagining Political Community", url: "#", featured: false },
+                    { title: "The Lost Art of Political Compromise", url: "#", featured: false },
+                    { title: "Democracy's Quiet Crisis", url: "#", featured: false },
+                    { title: "What Would a Politics of Care Look Like?", url: "#", featured: false }
+                ]
+            },
+            science: {
+                name: "Science",
+                articles: [
+                    { title: "The Mystery of Consciousness Remains", url: "#", featured: true },
+                    { title: "What Trees Know That We Don't", url: "#", featured: false },
+                    { title: "Time in the Quantum World", url: "#", featured: false },
+                    { title: "The Limits of Scientific Knowledge", url: "#", featured: false },
+                    { title: "Understanding the Universe Through Mathematics", url: "#", featured: false },
+                    { title: "The Beauty of Fundamental Physics", url: "#", featured: false },
+                    { title: "How Life Began: New Theories", url: "#", featured: false },
+                    { title: "The Science of Mindfulness", url: "#", featured: false },
+                    { title: "What Astronomy Teaches Us About Humility", url: "#", featured: false }
+                ]
+            },
+            society: {
+                name: "Society",
+                articles: [
+                    { title: "The Art of Gathering in a Fragmented World", url: "#", featured: true },
+                    { title: "What We've Lost in the Pursuit of Efficiency", url: "#", featured: false },
+                    { title: "Community in the Digital Age", url: "#", featured: false },
+                    { title: "The Value of Public Spaces", url: "#", featured: false },
+                    { title: "On Leisure and the Good Life", url: "#", featured: false },
+                    { title: "What Makes a Place Feel Like Home?", url: "#", featured: false },
+                    { title: "The Social Life of Small Talk", url: "#", featured: false },
+                    { title: "Rituals and Their Meaning in Modern Life", url: "#", featured: false },
+                    { title: "The Dignity of Work Reconsidered", url: "#", featured: false }
+                ]
+            },
+            sports: {
+                name: "Sports",
+                articles: [
+                    { title: "The Philosophy of Play", url: "#", featured: true },
+                    { title: "What Sport Teaches About Character", url: "#", featured: false },
+                    { title: "The Beauty of Basketball: An Essay", url: "#", featured: false },
+                    { title: "On Being a Fan in the Modern Age", url: "#", featured: false },
+                    { title: "Sport as Metaphor for Life", url: "#", featured: false },
+                    { title: "The Ethics of Competition", url: "#", featured: false },
+                    { title: "What We Talk About When We Talk About Winning", url: "#", featured: false },
+                    { title: "The Lost Art of Sportsmanship", url: "#", featured: false },
+                    { title: "Movement, Mind, and Mastery", url: "#", featured: false }
+                ]
+            },
+            technology: {
+                name: "Technology",
+                articles: [
+                    { title: "The Future of Human Attention", url: "#", featured: true },
+                    { title: "What Algorithms Can't Understand", url: "#", featured: false },
+                    { title: "Technology and the Meaning of Work", url: "#", featured: false },
+                    { title: "The Ethics of Artificial Intelligence", url: "#", featured: false },
+                    { title: "Digital Minimalism and the Good Life", url: "#", featured: false },
+                    { title: "What We Lose in the Age of Convenience", url: "#", featured: false },
+                    { title: "The Internet and the Death of Boredom", url: "#", featured: false },
+                    { title: "Can Technology Save Us From Technology?", url: "#", featured: false },
+                    { title: "The Human in the Machine", url: "#", featured: false }
+                ]
+            },
+            theology: {
+                name: "Theology",
+                articles: [
+                    { title: "On Prayer and Presence", url: "#", featured: true },
+                    { title: "The Mystery of Faith in a Secular Age", url: "#", featured: false },
+                    { title: "What Does It Mean to Be Human?", url: "#", featured: false },
+                    { title: "Contemplation and the Life of the Spirit", url: "#", featured: false },
+                    { title: "Grace, Doubt, and the Journey Inward", url: "#", featured: false },
+                    { title: "The Silence of God", url: "#", featured: false },
+                    { title: "On Suffering and Redemption", url: "#", featured: false },
+                    { title: "Sacred Time in a Secular World", url: "#", featured: false },
+                    { title: "The Practice of Sabbath Rest", url: "#", featured: false }
+                ]
+            }
+        };
 
         let currentView = 'main';
         let currentCategory = null;
+
+        showMainPage();
 
         function showMainPage() {
             currentView = 'main';
@@ -436,22 +418,20 @@
 
         function getCategoryColor(categoryKey) {
             const colors = {
-                artsculture: '#a85757',
-                literature: '#b8823d',
-                philosophy: '#9d8e4d',
-                politics: '#5a7a5a',
-                science: '#4d6b8a',
-                society: '#7a5a7a',
-                sports: '#8a5a6b',
-                technology: '#4d5a7a',
-                theology: '#8a4d6b'
+                artsculture: '#a86b5a',
+                literature: '#b88a4d',
+                philosophy: '#9d9159',
+                politics: '#6b8a6b',
+                science: '#5a7a8a',
+                society: '#8a6b7a',
+                sports: '#9a6b76',
+                technology: '#5a6a8a',
+                theology: '#9a5a76'
             };
             return colors[categoryKey] || '#666';
         }
 
         function renderGrid() {
-            if (!data || loading) return;
-            
             const grid = document.getElementById('grid');
             grid.innerHTML = '';
 
