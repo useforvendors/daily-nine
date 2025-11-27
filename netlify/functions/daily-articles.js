@@ -146,7 +146,7 @@ exports.handler = async function(event, context) {
       }
     }
 
-    // Return exactly 9 articles (or fewer if not enough available)
+    // Return exactly 9 articles as a simple array
     const finalArticles = selectedArticles.slice(0, 9);
 
     return {
